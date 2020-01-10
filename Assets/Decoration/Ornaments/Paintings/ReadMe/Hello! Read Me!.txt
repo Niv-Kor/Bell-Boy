@@ -1,0 +1,54 @@
+Hello there, awesome person, who bought my models! Thank You for the purchase!
+I hope there will be no problems loading and managing this asset pack.
+If there still is something wrong, please, contact me.
+
+My email: Ieva.lickiene@gmail.com
+
+Have a nice experience! Eat well, sleep well and be nice to Your Mom! ;D 
+
+Best Regards,
+Ieva
+
+-----------------------------------------------------------------------------------------------------------------------
+
+The whole info about the asset pack is bellow.
+
+Framed Oil Painting Pack Vol.2 - is a second low poly asset pack of original hand painted landscape pictures framed in wooden or vintage metal frames.
+
+The paintings used in the pictures are painted by my grandmother in law, so don't be afraid of any copyright issues. 
+
+- Set contains 10 separate meshes.
+
+- Assets are low poly.
+- Models are polygonal (quads and tris).
+- For easy use objects are named logically (using English language).
+- Models are UV mapped and unwrapped (non-overlapping).
+- Assets are fully textured (PBR), 2048x2048 .png's. Pack contains textures for Unity and Unreal engines.
+- Pack contains two different sets of textures - for wooden frames and vintage metal frames. 
+- All assets have auto Colliders applied to them.
+- 6 Materials.
+- Pack contains 20 Prefabs.
+- File Formats:
+.FBX
+
+
+- Polygons and Vertices-
+
+- Picture_11 -   368 polygons;   642 tris;   323 vertices.
+- Picture_12 -    94 polygons;   188 tris;    96 vertices.
+- Picture_13 -    62 polygons;   124 tris;    64 vertices.
+- Picture_14 -    62 polygons;   124 tris;    64 vertices.
+- Picture_15 - 1 775 polygons; 2 963 tris; 1 806 vertices.
+- Picture_16 -    82 polygons;   164 tris;    84 vertices.
+- Picture_17 -    82 polygons;   164 tris;    84 vertices.
+- Picture_18 -   196 polygons;   368 tris;   186 vertices.
+- Picture_19 -   302 polygons;   536 tris;   270 vertices.
+- Picture_20 -    66 polygons;   132 tris;    68 vertices.
+
+In total:      3 089 polygons; 5 405 tris; 3 045 vertices.
+
+Need more Framed Painting models? Check my Framed Oil Painting Pack Vol.1 - https://goo.gl/egJPmY
+
+Thanks and Best of Luck!
+
+-Ieva-

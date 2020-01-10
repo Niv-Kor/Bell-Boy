@@ -1,0 +1,16 @@
+Originally this chandelier is part of a package that includes eight chandeliers of different style.
+Each chandelier in this package is composed of 5 LOD levels and is accompanied by a script that allows the switching on and switching off the lights in a very realistic way.
+For an even more realistic effect of chandeliers in dark rooms and unlit, we highly recommend you consider adding a "Reflection Probe".
+
+
+God Job
+10th Planet™ - A company of The GALAXY PICTURES Group
+
+
+Visit our website: 
+www.10thplanet.company
+
+
+Also visit the sites of our group:
+www.galaxypictures.net
+www.galaxypictures.eu
