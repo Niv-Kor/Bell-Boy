@@ -13,7 +13,6 @@
 /[Aa]ssets/Camera/
 /[Aa]ssets/Decoration/
 /[Aa]ssets/Elevator/
-/[Aa]ssets/Floors/
 
 # Asset meta data should only be ignored when the corresponding asset is also ignored
 !/[Aa]ssets/**/*.meta
