@@ -19,7 +19,6 @@
 /[Aa]ssets/Passengers/
 /[Aa]ssets/Scenes/
 /[Aa]ssets/Skyboxes/
-/[Aa]ssets/TextMesh Pro/
 
 # Asset meta data should only be ignored when the corresponding asset is also ignored
 !/[Aa]ssets/**/*.meta
