@@ -12,14 +12,14 @@ public class Floor : MonoBehaviour
     [Tooltip("The object of the floor.")]
     [SerializeField] private GameObject floorConcrete;
 
+    [Tooltip("The carpet on the floor")]
+    [SerializeField] public GameObject Carpet;
+
     [Tooltip("The left elevator entrance of the floor.")]
     [SerializeField] private GameObject leftEntrance;
 
     [Tooltip("The right elevator entrance of the floor.")]
     [SerializeField] private GameObject rightEntrance;
-
-    [Tooltip("The button that calls the elevator.")]
-    [SerializeField] private GameObject elevatorButton;
 
     [Tooltip("Left shatterable window.")]
     [SerializeField] public GameObject LeftWindow;

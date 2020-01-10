@@ -22,7 +22,6 @@ public class ElevatorSelectionArrow : MonoBehaviour
     private List<ElevatorSelectionArrow> parallelArrows;
     private Vector3 medianPoint, topBounce, bottomBounce, nextBouncePoint;
     private Color originColor;
-    private Bounds bounds;
     private bool activated, fire;
     private float fireTimer;
 
@@ -42,11 +41,6 @@ public class ElevatorSelectionArrow : MonoBehaviour
         this.activated = false;
         this.fire = false;
 
-        //calcaulate arrow bounds (for user tap)
-        Vector3 boundsCenter = spriteRenderer.bounds.center;
-        Vector3 boundsSize = spriteRenderer.bounds.size + new Vector3(0, 0, 1);
-        this.bounds = new Bounds(boundsCenter, boundsSize);
-
         //trigger elevator call event
         floor.ElevatorButton.OnElevatorCall += ElevatorButton_OnElevatorCall;
     }
@@ -57,12 +51,6 @@ public class ElevatorSelectionArrow : MonoBehaviour
 
         if (activated) {
             Bounce();
-
-            //user tap
-            Vector3 mousePos = Input.mousePosition;
-            mousePos.z = bounds.center.z;
-            mousePos = Monitor.Instance.MainCamera.ScreenToWorldPoint(mousePos);
-            if (Input.GetMouseButtonDown(0) && bounds.Contains(mousePos)) OnTap();
 
             //no one is waiting for the elevator
             if (floor.Passengers.Count == 0) {
@@ -82,6 +70,10 @@ public class ElevatorSelectionArrow : MonoBehaviour
                 spriteRenderer.enabled = false;
             }
         }
+    }
+
+    private void OnMouseDown() {
+        if (activated) OnTap();
     }
 
     /// <summary>

@@ -1213,9 +1213,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ceilingConcrete: {fileID: 1991605188878260514}
   floorConcrete: {fileID: 1991605190427546139}
+  Carpet: {fileID: 1991605190084022637}
   leftEntrance: {fileID: 2512660020401917316}
   rightEntrance: {fileID: 3211824616104802785}
-  elevatorButton: {fileID: 8391349873924589023}
   LeftWindow: {fileID: 0}
   RightWindow: {fileID: 0}
   floorText: {fileID: 3049488774590828588}
