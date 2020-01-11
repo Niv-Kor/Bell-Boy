@@ -101,7 +101,7 @@ public class WindowJumpJourney : Journey
         down.x = sideVertex.x;
         Physics.Raycast(fallPoint, down, out RaycastHit hit, hypotenuseEdge, Layers.GROUND);
         Vector3 crashPoint = hit.point;
-        crashPoint.y += dimension.z / 2;
+        crashPoint.y += dimension.z * .3f;
         crashPoint.z = z;
         path.Enqueue(crashPoint);
 

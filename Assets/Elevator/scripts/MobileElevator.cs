@@ -280,8 +280,6 @@ public class MobileElevator : StationaryElevator
     public bool ReceivePassenger(Passenger passenger) {
         if ((!IsOpen && !IsOpening) || passengers.Contains(passenger)) return false;
 
-        print(ID + " is receiving " + passenger.ID);
-
         Floor currentFloorComponent = FloorBuilder.Instance.Floors[CurrentFloorNum];
         pendingTasks.Push(passenger.TargetFloorNum[0]);
         passenger.CommitToJourney(JourneyPath.ElevatorEntrance, currentFloorComponent);

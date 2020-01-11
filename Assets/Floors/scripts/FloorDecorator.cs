@@ -29,6 +29,15 @@ public class FloorDecorator : Singleton<FloorDecorator>
     [Tooltip("True for the placement chance to be completely random each time.")]
     [SerializeField] private bool randomChance = false;
 
+    [Header("Debug")]
+
+    [Tooltip("True to decorte the floors or false to leave them as they are.")]
+    [SerializeField] private bool decorateFloors;
+
+    [Tooltip("True to paint the floors' carpets or false to leave them " + 
+             "with their default color.")]
+    [SerializeField] private bool paintCarpets;
+
     private static readonly string DECORATIONS_PARENT_NAME = "Decorations";
 
     /// <summary>
@@ -36,8 +45,8 @@ public class FloorDecorator : Singleton<FloorDecorator>
     /// </summary>
     /// <param name="floors">An array of the building's floors</param>
     public void Decorate(Floor[] floors) {
-        if (carpetColors.Count > 0) PaintCarpets(floors);
-        PlaceDecorations(floors);
+        if (decorateFloors) PlaceDecorations(floors);
+        if (paintCarpets && carpetColors.Count > 0) PaintCarpets(floors);
     }
 
     /// <summary>

@@ -153,8 +153,6 @@ public abstract class Journey
     public virtual void ContinuePath() {
         if (path.Count > 0) nextPoint = path.Dequeue();
         else if (path.Count == 0 && LookAtElevatorOnFinish() && !lookAtElevator) {
-            Debug.Log("passenger " + passenger.ID + " is looking now at elevator");
-
             //find the closest entrance to look at
             float minDistance = float.MaxValue;
             Vector3 targetEntrance = Vector3.zero; //formal assignment

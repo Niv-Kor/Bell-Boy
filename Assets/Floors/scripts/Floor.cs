@@ -56,14 +56,14 @@ public class Floor : MonoBehaviour
     public float FloorHeight {
         get {
             BoxCollider floorBox = floorConcrete.GetComponent<BoxCollider>();
-            return floorConcrete.transform.position.y - floorBox.bounds.extents.y; 
+            return floorBox.bounds.center.y - floorBox.bounds.extents.y; 
         }
     }
 
     public float RoofHeight {
         get {
             BoxCollider ceilingBox = ceilingConcrete.GetComponent<BoxCollider>();
-            return ceilingConcrete.transform.position.y + ceilingBox.bounds.extents.y;
+            return ceilingBox.bounds.center.y + ceilingBox.bounds.extents.y;
         }
     }
 
