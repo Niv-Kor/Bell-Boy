@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 [RequireComponent(typeof(Animator))]
 public class AnimationControl : MonoBehaviour
@@ -8,10 +9,17 @@ public class AnimationControl : MonoBehaviour
     private Animator animator;
 
     public bool IsIdle { get; private set; }
+    public IDictionary<StateManchine.State, TriggerState> Triggers { get; set; }
 
     private void Awake() {
         this.animator = GetComponent<Animator>();
         this.IsIdle = true;
+        this.Triggers = new Dictionary<StateManchine.State, TriggerState>();
+        
+        //wrap all trigger behaviours in a dictionary
+        TriggerState[] triggerStates = animator.GetBehaviours<TriggerState>();
+        foreach (TriggerState state in triggerStates)
+            Triggers.Add(StateManchine.GetState(state.ParameterName), state);
     }
 
     /// <summary>

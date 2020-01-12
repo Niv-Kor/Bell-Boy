@@ -32,6 +32,7 @@ public abstract class Passenger : MonoBehaviour
     protected int startingFloorNum;
     protected float failedSpawnTimer, disposeTimer;
     protected bool destroyed, failedSpawnAttempt;
+    private List<int> targetFloorNum;
 
     public Queue<Vector3> LeasedPath { get; set; }
     public Floor StartingFloor { get { return FloorBuilder.Instance.Floors[StartingFloorNum]; } }
@@ -39,9 +40,18 @@ public abstract class Passenger : MonoBehaviour
     public Floor TargetFloor { get { return FloorBuilder.Instance.Floors[TargetFloorNum[0]]; } }
     public TargetMark TargetMark { get; private set; }
     public int CurrentFloorNum { get; set; }
-    public List<int> TargetFloorNum { get; private set; }
     public bool WaitingForElevator { get; set; }
     public Vector3 Dimension { get; private set; }
+
+    public List<int> TargetFloorNum {
+        get { return targetFloorNum; }
+        set {
+            targetFloorNum = value;
+
+            if (targetMarkSymbol == TargetMarkSymbol.Numeral)
+                TargetMark.SetFloorNumber(value[0]);
+        }
+    }
 
     public bool IsDestroyed {
         get { return destroyed; }
@@ -82,19 +92,18 @@ public abstract class Passenger : MonoBehaviour
         this.Dimension = GetComponent<BoxCollider>().size;
     }
 
-    public void Reset() {
+    public virtual void Reset() {
         this.WaitingForElevator = false;
         this.failedSpawnAttempt = false;
         this.IsDestroyed = false;
         this.failedSpawnTimer = 0;
         this.disposeTimer = 0;
-        this.TargetFloorNum = new List<int>(GenerateTargetFloor());
         TargetMark.Reset();
         ClearJourneys();
 
-        //set a target mark
-        if (targetMarkSymbol == TargetMarkSymbol.Numeral) TargetMark.SetFloorNumber(TargetFloorNum[0]);
-        else TargetMark.SetSymbol(targetMarkSymbol);
+        //set target floors and mark
+        this.TargetFloorNum = new List<int>(GenerateTargetFloor());
+        if (targetMarkSymbol != TargetMarkSymbol.Numeral) TargetMark.SetSymbol(targetMarkSymbol);
     }
 
     protected virtual void Update() {
@@ -170,7 +179,7 @@ public abstract class Passenger : MonoBehaviour
     /// </summary>
     /// <param name="path">Type of journey to add</param>
     /// <param name="floor">The Component of the floor at which the journey occurs</param>
-    public void AddJourney(JourneyPath path, Floor floor) {
+    public virtual void AddJourney(JourneyPath path, Floor floor) {
         Journey journey = Journey.Create(path, this, floor, walkSpeed);
         if (journey != null) journeys.Enqueue(new JourneyData(journey, path));
     }
@@ -182,7 +191,7 @@ public abstract class Passenger : MonoBehaviour
     /// </summary>
     /// <param name="path">Type of journey to add</param>
     /// <param name="floor">The Component of the floor at which the journey occurs</param>
-    public void ForceJourney(JourneyPath path, Floor floor) {
+    public virtual void ForceJourney(JourneyPath path, Floor floor) {
         Journey journey = Journey.Create(path, this, floor, walkSpeed);
 
         //push to the start
@@ -206,7 +215,7 @@ public abstract class Passenger : MonoBehaviour
     /// </summary>
     /// <param name="path">Type of journey to add</param>
     /// <param name="floor">The Component of the floor at which the journey occurs</param>
-    public void CommitToJourney(JourneyPath path, Floor floor) {
+    public virtual void CommitToJourney(JourneyPath path, Floor floor) {
         ClearJourneys();
         AddJourney(path, floor);
     }
@@ -222,7 +231,7 @@ public abstract class Passenger : MonoBehaviour
     /// <summary>
     /// Destroy a passenger object (without losing a life).
     /// </summary>
-    public void Destory() {
+    public virtual void Destroy() {
         SpawnControl.Instance.CachePassenger(gameObject);
         IsDestroyed = true;
     }

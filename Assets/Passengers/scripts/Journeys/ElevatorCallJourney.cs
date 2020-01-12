@@ -3,12 +3,12 @@ using UnityEngine;
 
 public class ElevatorCallJourney : Journey
 {
-    private bool pressing, called;
+    private bool pressing;
 
     public ElevatorCallJourney(Passenger passenger, Floor floor, float walkSpeed) :
     base(passenger, floor, walkSpeed) {
         this.pressing = true;
-        this.called = false;
+        animationControl.Triggers[StateManchine.PRESS].OnFinish += TriggerState_CallElevator;
     }
 
     protected override void Travel(bool finishMovement, bool finishRotation) {
@@ -19,15 +19,17 @@ public class ElevatorCallJourney : Journey
                 pressing = false;
             }
         }
-        //activate button
-        else if (!floor.ElevatorButton.IsOn && !called) {
-            floor.ElevatorButton.Call();
-            called = true;
-        }
-        else if (finishMovement && finishRotation && animationControl.IsIdle) {
+        else if (finishMovement && finishRotation && animationControl.IsIdle && floor.ElevatorButton.IsOn) {
             usingSpecialRotation = false;
             ContinuePath();
         }
+    }
+
+    /// <summary>
+    /// Call The elevator to the floor.
+    /// </summary>
+    private void TriggerState_CallElevator(TriggerState trigger) {
+        floor.ElevatorButton.Call();
     }
 
     protected override Queue<Vector3> GeneratePath() {
@@ -58,6 +60,7 @@ public class ElevatorCallJourney : Journey
     }
 
     protected override void OnFinish() {
+        animationControl.Triggers[StateManchine.PRESS].OnFinish -= TriggerState_CallElevator;
         floor.ElevatorBeingCalled = false;
         animationControl.Idlize();
     }

@@ -11,7 +11,7 @@
     }
 
     public void Clear() {
-        if (Journey != null) Journey.Pause();
+        if (Journey != null) Journey.Stop();
         this.Journey = null;
         this.PathType = JourneyPath.Blank;
     }

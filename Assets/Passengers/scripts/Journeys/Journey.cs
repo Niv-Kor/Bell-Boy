@@ -17,7 +17,7 @@ public abstract class Journey
     protected Transform transform;
     protected Vector3 dimension;
     protected Vector3 nextPoint, specialRotationTarget;
-    protected bool usingSpecialRotation;
+    protected bool paused, usingSpecialRotation;
     private bool enteredHall, lookAtElevator;
     private float speed, rotationSpeed;
 
@@ -69,8 +69,10 @@ public abstract class Journey
     /// </summary>
     /// <returns>True if the path has ended.</returns>
     public bool Update() {
+        if (paused) return false;
+
         //passenger is entering the hall for the first time in this journey
-        if (!enteredHall && PassengerInHall()) {
+        if (!enteredHall && floor.IsInWaitingHall(passenger)) {
             enteredHall = true;
             OnEnteringHall();
         }
@@ -80,13 +82,6 @@ public abstract class Journey
             return false;
         }
         else return true;
-    }
-
-    /// <returns>True if the passenger in inside the floor's waiting hall.</returns>
-    private bool PassengerInHall() {
-        Vector3 passengerPos = passenger.transform.position;
-        Vector3 passengerCenter = passengerPos + new Vector3(0, passenger.Dimension.y / 2, 0);
-        return floor.IsInWaitingHall(passengerCenter);
     }
 
     /// <summary>
@@ -172,13 +167,21 @@ public abstract class Journey
             nextPoint = targetEntrance;
             lookAtElevator = true;
         }
-        else Pause();
+        else Stop();
     }
 
     /// <summary>
-    /// Pause the passenger's movement.
+    /// Pause the journey.
     /// </summary>
-    public void Pause() {
+    /// <param name="flag">True to pause or false to resume</param>
+    public void Pause(bool flag) {
+        paused = flag;
+    }
+
+    /// <summary>
+    /// Stop the journey.
+    /// </summary>
+    public void Stop() {
         OnFinish();
         path = null;
     }

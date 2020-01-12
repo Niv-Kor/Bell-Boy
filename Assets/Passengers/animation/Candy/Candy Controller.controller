@@ -217,7 +217,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1373bba8cf60cba479215a2da30df17d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  parameterName: special
+  ParameterName: special
+  triggerAfter: 0.7
 --- !u!1102 &-3152460337015345035
 AnimatorState:
   serializedVersion: 5
@@ -259,7 +260,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1373bba8cf60cba479215a2da30df17d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  parameterName: press
+  ParameterName: press
+  triggerAfter: 0.5
 --- !u!1102 &-479406525989717127
 AnimatorState:
   serializedVersion: 5
@@ -350,7 +352,7 @@ AnimatorController:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Candy Controller 1
+  m_Name: Candy Controller
   serializedVersion: 5
   m_AnimatorParameters:
   - m_Name: walk
@@ -358,49 +360,49 @@ AnimatorController:
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: press
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: fall
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: run
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: jump
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: crash
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: special
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: abort
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   m_AnimatorLayers:
   - serializedVersion: 5
     m_Name: Base Layer

@@ -23,7 +23,7 @@ public class FloorExitJourney : Journey
     }
 
     protected override void OnFinish() {
-        passenger.Destory();
+        passenger.Destroy();
     }
 
     protected override bool LookAtElevatorOnFinish() { return false; }
