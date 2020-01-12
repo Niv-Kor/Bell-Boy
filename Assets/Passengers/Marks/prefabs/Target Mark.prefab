@@ -4766,7 +4766,7 @@ GameObject:
   - component: {fileID: 199835555116192418}
   - component: {fileID: 4488934639097265580}
   m_Layer: 8
-  m_Name: Floor Mark
+  m_Name: Target Mark
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9630,6 +9630,10 @@ MonoBehaviour:
   fadeTime: 5
   upArrow: {fileID: 2100000, guid: 8a9144040301e8e4891789ccfecf58d1, type: 2}
   downArrow: {fileID: 2100000, guid: 0a9c500717b89314b9ff957d6c21b15c, type: 2}
+  multidirectionArrow: {fileID: 2100000, guid: 1915a7f42fd735247b8ef5e6f9639452, type: 2}
+  noneDirectionArrow: {fileID: 2100000, guid: f52794fe7b419e640bd85d88837e2921, type: 2}
+  questionMarkSymbol: {fileID: 2100000, guid: 1b0a959d789048e4a884a53d452835d6, type: 2}
+  skullkSymbol: {fileID: 2100000, guid: 4043f8972d586e54b9deaa3aea26ee31, type: 2}
   floorMaterials:
   - {fileID: 2100000, guid: cb90c0669ec631d479272ac58ce90cf4, type: 2}
   - {fileID: 2100000, guid: 1a9ebb0dc067bad49ad44a73ca500c94, type: 2}

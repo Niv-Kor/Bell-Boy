@@ -145,8 +145,6 @@ public abstract class Journey
         catch (Exception) { return false; }
     }
 
-    protected abstract Queue<Vector3> GeneratePath();
-
     /// <summary>
     /// Continue towards to the next point of the path.
     /// </summary>
@@ -160,8 +158,8 @@ public abstract class Journey
             foreach (ElevatorID ID in Enum.GetValues(typeof(ElevatorID))) {
                 if (ID == default) continue;
 
-                StationaryElevator entrace = floor.GetEntrance(ID);
-                Vector3 entrancePos = entrace.transform.position;
+                StationaryElevator entrance = floor.GetEntrance(ID);
+                Vector3 entrancePos = entrance.transform.position;
                 float distance = Vector3.Distance(transform.position, entrancePos);
 
                 if (distance < minDistance) {
@@ -170,7 +168,7 @@ public abstract class Journey
                 }
             }
 
-            targetEntrance.y = transform.position.y; //maintain same height as character
+            targetEntrance.y = transform.position.y; //maintain same height as passenger
             nextPoint = targetEntrance;
             lookAtElevator = true;
         }
@@ -184,6 +182,9 @@ public abstract class Journey
         OnFinish();
         path = null;
     }
+
+    /// <returns>A path for the passenger to walk through.</returns>
+    protected abstract Queue<Vector3> GeneratePath();
 
     /// <returns>True if the passenger should look at the elevator at the end of the journey.</returns>
     protected abstract bool LookAtElevatorOnFinish();

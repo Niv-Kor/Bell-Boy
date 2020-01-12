@@ -1,4 +1,4 @@
 ﻿public enum ElevatorDirection
 {
-    Still, Up, Down
+    Still, Up, Down, Both
 }

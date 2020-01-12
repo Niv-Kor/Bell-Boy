@@ -1,28 +1,37 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public class Passenger : MonoBehaviour
+public abstract class Passenger : MonoBehaviour
 {
+    [Header("Timing")]
+
     [Tooltip("The passenger's speed.")]
-    [SerializeField] private float walkSpeed;
+    [SerializeField] protected float walkSpeed;
+
+    [Tooltip("Running speed as a multiplier of the walking speed")]
+    [SerializeField] public float RunSpeedMultiplier = 2;
 
     [Tooltip("The total amount of time (in seconds) the passenger is willing to wait for the elevator.")]
     [SerializeField] public float Patience;
 
-    [Tooltip("The time it takes the passenger to be destroyed after he's dead.")]
-    [SerializeField] private float disposeTime;
+    [Header("Transportation")]
+
+    [Tooltip("The type of mark to show above the passenger.")]
+    [SerializeField] protected TargetMarkSymbol targetMarkSymbol;
 
     [Header("Debug")]
 
     [Tooltip("The passenger's unique ID.")]
     [SerializeField] public int ID;
 
-    private JourneyData currentJourney;
-    private Queue<JourneyData> journeys;
-    private AnimationControl animationControl;
-    private int startingFloorNum;
-    private float failedSpawnTimer, disposeTimer;
-    private bool destroyed, failedSpawnAttempt;
+    protected static readonly float DISPOSE_TIME = 90;
+
+    protected JourneyData currentJourney;
+    protected Queue<JourneyData> journeys;
+    protected AnimationControl animationControl;
+    protected int startingFloorNum;
+    protected float failedSpawnTimer, disposeTimer;
+    protected bool destroyed, failedSpawnAttempt;
 
     public Queue<Vector3> LeasedPath { get; set; }
     public Floor StartingFloor { get { return FloorBuilder.Instance.Floors[StartingFloorNum]; } }
@@ -30,7 +39,7 @@ public class Passenger : MonoBehaviour
     public Floor TargetFloor { get { return FloorBuilder.Instance.Floors[TargetFloorNum[0]]; } }
     public TargetMark TargetMark { get; private set; }
     public int CurrentFloorNum { get; set; }
-    public int[] TargetFloorNum { get; private set; }
+    public List<int> TargetFloorNum { get; private set; }
     public bool WaitingForElevator { get; set; }
     public Vector3 Dimension { get; private set; }
 
@@ -50,14 +59,21 @@ public class Passenger : MonoBehaviour
         }
     }
 
-    public ElevatorDirection Direction {
+    public ElevatorDirection RealDirection {
         get {
             bool goingUp = TargetFloorNum[0] > CurrentFloorNum;
             return goingUp ? ElevatorDirection.Up : ElevatorDirection.Down;
         }
     }
 
-    private void Awake() {
+    public ElevatorDirection ApparentDirection {
+        get {
+            if (targetMarkSymbol == TargetMarkSymbol.Numeral) return RealDirection;
+            else return ElevatorDirection.Both;
+        }
+    }
+
+    protected void Awake() {
         this.ID = Random.Range(0, int.MaxValue);
         this.journeys = new Queue<JourneyData>();
         this.currentJourney = new JourneyData(null, JourneyPath.Blank);
@@ -72,14 +88,16 @@ public class Passenger : MonoBehaviour
         this.IsDestroyed = false;
         this.failedSpawnTimer = 0;
         this.disposeTimer = 0;
-        this.TargetFloorNum = new int[1];
-        TargetFloorNum[0] = GenerateTargetFloor();
+        this.TargetFloorNum = new List<int>(GenerateTargetFloor());
         TargetMark.Reset();
-        TargetMark.SetFloorNumber(TargetFloorNum[0]);
         ClearJourneys();
+
+        //set a target mark
+        if (targetMarkSymbol == TargetMarkSymbol.Numeral) TargetMark.SetFloorNumber(TargetFloorNum[0]);
+        else TargetMark.SetSymbol(targetMarkSymbol);
     }
 
-    private void Update() {
+    protected virtual void Update() {
         Navigate();
 
         if (!IsDestroyed) {
@@ -98,17 +116,17 @@ public class Passenger : MonoBehaviour
             if (WaitingForElevator &&
                !currentFloor.ElevatorButton.IsOn &&
                !currentFloor.ElevatorBeingCalled &&
-               !currentFloor.HasElevator(Direction)) {
+               !currentFloor.HasElevator(RealDirection)) {
 
                 CurrentFloor.ElevatorBeingCalled = true;
                 AddJourney(JourneyPath.ElevatorCall, currentFloor);
             }
         }
-        else if (disposeTimer < disposeTime) {
+        else if (disposeTimer < DISPOSE_TIME) {
             disposeTimer += Time.deltaTime;
 
             //dispose passenger (return it to the passengers pool)
-            if (disposeTimer >= disposeTime) {
+            if (disposeTimer >= DISPOSE_TIME) {
                 disposeTimer = 0;
                 SpawnControl.Instance.CachePassenger(gameObject);
             }
@@ -118,7 +136,7 @@ public class Passenger : MonoBehaviour
     /// <summary>
     /// Walk through the journeys in the queue.
     /// </summary>
-    private void Navigate() {
+    protected void Navigate() {
         //assign new next journey in the queue
         if (journeys.Count > 0 && currentJourney.Journey == null) {
             JourneyData nextJourney = journeys.Dequeue();
@@ -145,19 +163,6 @@ public class Passenger : MonoBehaviour
             bool finished = currentJourney.Journey.Update();
             if (finished) currentJourney.Clear();
         }
-    }
-
-    /// <summary>
-    /// Generate a target floor for the passenger.
-    /// </summary>
-    /// <returns>A target floor which is different than the starting floor.</returns>
-    private int GenerateTargetFloor() {
-        int floor = StartingFloorNum;
-
-        while (floor == StartingFloorNum)
-            floor = FloorBuilder.Instance.GetRandomFloorNumber(true, false);
-
-        return floor;
     }
 
     /// <summary>
@@ -230,4 +235,13 @@ public class Passenger : MonoBehaviour
         currentJourney.Clear();
         journeys.Clear();
     }
+
+    /// <summary>
+    /// Generate a target floor for the passenger.
+    /// </summary>
+    /// <returns>A target floor which is different than the starting floor.</returns>
+    protected abstract int[] GenerateTargetFloor();
+
+    /// <returns>True if the passenger get be spawned at the moment.</returns>
+    public abstract bool CanBeSpawned();
 }

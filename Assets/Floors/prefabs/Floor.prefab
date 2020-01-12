@@ -6183,7 +6183,7 @@ MonoBehaviour:
   LeftWindow: {fileID: 1967452336825955267}
   RightWindow: {fileID: 2769109829006367712}
   floorText: {fileID: 1821421804}
-  MaxCapacity: 1
+  MaxCapacity: 3
 --- !u!114 &5676579540856093880
 MonoBehaviour:
   m_ObjectHideFlags: 0

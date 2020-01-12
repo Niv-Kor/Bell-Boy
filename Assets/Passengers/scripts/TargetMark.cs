@@ -14,11 +14,27 @@ public class TargetMark : MonoBehaviour
     [Tooltip("The time it takes the mark to fade away.")]
     [SerializeField] private float fadeTime = 1;
 
+    [Header("Arrow Marks")]
+
     [Tooltip("The material to show as an arrow pointing upwards (to a higher floor).")]
     [SerializeField] private Material upArrow;
 
     [Tooltip("The material to show as an arrow pointing downwards (to a lower floor).")]
     [SerializeField] private Material downArrow;
+
+    [Tooltip("The material to show as an arrow pointing at both sides.")]
+    [SerializeField] private Material multidirectionArrow;
+
+    [Tooltip("The material to show as an arrow pointing at nothing.")]
+    [SerializeField] private Material noneDirectionArrow;
+
+    [Header("Special Marks")]
+
+    [Tooltip("A question mark symbol.")]
+    [SerializeField] private Material questionMarkSymbol;
+
+    [Tooltip("A skull mark.")]
+    [SerializeField] private Material skullkSymbol;
 
     [Tooltip("Mark materials for each floor.")]
     [SerializeField] private Material[] floorMaterials;
@@ -112,10 +128,28 @@ public class TargetMark : MonoBehaviour
 
     /// <param name="floorNum">The floor number to show on the mark</param>
     public void SetFloorNumber(int floorNum) {
-        particleRenderer[0].material = floorMaterials[floorNum];
-
-        //change the direction arrow
         Material arrow = (floorNum > passenger.CurrentFloorNum) ? upArrow : downArrow;
+        SetSymbol(floorMaterials[floorNum], arrow);
+    }
+
+    /// <summary>
+    /// Set a special symbol as a mark.
+    /// </summary>
+    /// <param name="symbol">The symbol to set</param>
+    public void SetSymbol(TargetMarkSymbol symbol) {
+        switch (symbol) {
+            case TargetMarkSymbol.QuestionMark: SetSymbol(questionMarkSymbol, noneDirectionArrow); break;
+            case TargetMarkSymbol.Skull: SetSymbol(skullkSymbol, multidirectionArrow); break;
+        }
+    }
+
+    /// <summary>
+    /// Set a special symbol as a mark.
+    /// </summary>
+    /// <param name="symbol">The material of the mark</param>
+    /// <param name="arrow">The material of the arrow below the mark</param>
+    private void SetSymbol(Material symbol, Material arrow) {
+        particleRenderer[0].material = symbol;
         particleRenderer[1].material = arrow;
     }
 

@@ -51,7 +51,7 @@ public class SpawnControl : Singleton<SpawnControl>
     /// Spawn a passenger in one of the floors.
     /// </summary>
     /// <param name="passenger">The passenger prefab to spawn</param>
-    public void Spawn(PassengerPersona persona) {
+    public void Spawn(Persona persona) {
         Floor floor = FloorBuilder.Instance.GetRandomFloor(false, false);
         if (!floor.IsAtFullCapacity()) Spawn(persona, floor);
     }
@@ -61,7 +61,7 @@ public class SpawnControl : Singleton<SpawnControl>
     /// </summary>
     /// <param name="persona">The passenger persona to spawn</param>
     /// <param name="floor">The floor to spawn the passenger in</param>
-    public void Spawn(PassengerPersona persona, Floor floor) {
+    public void Spawn(Persona persona, Floor floor) {
         GameObject passenger = pool.Lease(persona);
         Spawn(passenger, floor);
     }

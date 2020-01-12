@@ -6,7 +6,6 @@ public class WindowJumpJourney : Journey
 {
     private static readonly float DISTANCE_TO_JUMP = 1;
     private static readonly float DISTANCE_TO_FALL = .7f;
-    private static readonly float RUN_SPEED_MULTIPLIER = 2;
     private static readonly float MAX_JUMP_DISTANCE = .3f;
     private static readonly float FALL_SPEED = 8;
 
@@ -25,7 +24,7 @@ public class WindowJumpJourney : Journey
             //start running
             if (!animationControl.IsAnimating(StateManchine.RUN)) {
                 animationControl.Animate(StateManchine.RUN);
-                Speed *= RUN_SPEED_MULTIPLIER;
+                Speed *= passenger.RunSpeedMultiplier;
             }
 
             //jump at window

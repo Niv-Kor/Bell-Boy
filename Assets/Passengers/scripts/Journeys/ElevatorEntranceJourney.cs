@@ -39,10 +39,10 @@ public class ElevatorEntranceJourney : Journey
         foreach (MobileElevator elev in elevators) {
             if (elev.ID == default || elev.CurrentFloorNum != floor.FloorNumber) continue;
             else {
-                bool sameDirection = elev.Direction == ElevatorDirection.Still || elev.Direction == passengerDirection;
                 bool isOpen = elev.IsOpening || elev.IsOpen;
+                bool sameDirection = DirectionCalculator.Equals(elev.Direction, passengerDirection);
 
-                if (sameDirection && isOpen) {
+                if (isOpen && sameDirection) {
                     selectedID = elev.ID;
                     break;
                 }

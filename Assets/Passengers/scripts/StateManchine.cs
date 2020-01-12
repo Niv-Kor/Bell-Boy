@@ -17,7 +17,8 @@ public class StateManchine
     public static readonly State JUMP = new State("jump");
     public static readonly State FALL = new State("fall");
     public static readonly State CRASH = new State("crash");
-    public static readonly State[] STATES = { WALK, PRESS, RUN, JUMP, FALL, CRASH };
+    public static readonly State SPECIAL = new State("special");
+    public static readonly State[] STATES = { WALK, PRESS, RUN, JUMP, FALL, CRASH, SPECIAL };
 
     /// <param name="paramName">Parameter name</param>
     /// <returns>The state that corresponds with the parameter.</returns>

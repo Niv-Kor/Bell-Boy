@@ -79,7 +79,7 @@ public class MobileElevator : StationaryElevator
                 //translate all passengers in the elevator
                 if (previousY != nextY)
                     foreach (Passenger passenger in passengers)
-                        passenger.transform.Translate(0, nextY - previousY, 0);
+                        passenger.transform.position += Vector3.up * (nextY - previousY);
             }
         }
         //close elevator when idle
@@ -255,7 +255,7 @@ public class MobileElevator : StationaryElevator
 
         //find passengers that need to leave the elevator
         foreach (Passenger passenger in passengers)
-            if (passenger.TargetFloorNum[0] == CurrentFloorNum)
+            if (passenger.TargetFloorNum.Contains(CurrentFloorNum))
                 removedPassengers.Enqueue(passenger);
 
         //activate semaphore
@@ -280,8 +280,10 @@ public class MobileElevator : StationaryElevator
     public bool ReceivePassenger(Passenger passenger) {
         if ((!IsOpen && !IsOpening) || passengers.Contains(passenger)) return false;
 
+        //push the passenger's desired buttons
+        foreach (int targetFloor in passenger.TargetFloorNum) pendingTasks.Push(targetFloor);
+
         Floor currentFloorComponent = FloorBuilder.Instance.Floors[CurrentFloorNum];
-        pendingTasks.Push(passenger.TargetFloorNum[0]);
         passenger.CommitToJourney(JourneyPath.ElevatorEntrance, currentFloorComponent);
         currentFloorComponent.Passengers.Remove(passenger);
         passengers.Add(passenger);

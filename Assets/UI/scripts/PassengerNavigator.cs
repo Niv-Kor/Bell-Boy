@@ -132,14 +132,15 @@ public class PassengerNavigator : MonoBehaviour
     private MobileElevator MouseOnElevator(Vector3 mousePos) {
         List<MobileElevator> elevators = ElevatorsManager.GetAllElevators();
         List<MobileElevator> targetElevators = new List<MobileElevator>();
-        ElevatorDirection passengerDirection = passenger.Direction;
+        ElevatorDirection passengerDirection = passenger.ApparentDirection;
 
-        foreach (MobileElevator elevator in elevators)
-            if (elevator.CurrentFloorNum == passenger.CurrentFloorNum &&
-               (elevator.IsOpen || elevator.IsOpening) &&
-               (elevator.Direction == ElevatorDirection.Still ||
-                elevator.Direction == passengerDirection))
-                targetElevators.Add(elevator);
+        foreach (MobileElevator elevator in elevators) {
+            bool sameFloor = elevator.CurrentFloorNum == passenger.CurrentFloorNum;
+            bool elevatorOpen = elevator.IsOpen || elevator.IsOpening;
+            bool sameDirection = DirectionCalculator.Equals(elevator.Direction, passengerDirection);
+
+            if (sameFloor && elevatorOpen && sameDirection) targetElevators.Add(elevator);
+        }
 
         foreach (MobileElevator elevator in targetElevators) {
             mousePos.z = elevator.transform.position.z;
