@@ -38,9 +38,9 @@ public class FloorBuilder : Singleton<FloorBuilder>
         Floors = Build(out float buildingHeight);
 
         //set the maximum height of the camera based on the building's height
-        VerticalCamSlider camSlider = FindObjectOfType<VerticalCamSlider>();
+        VerticalCamSlider camSlider = Monitor.Instance.MainCamera.GetComponent<VerticalCamSlider>();
         float roofHeight = Floors[Floors.Length - 1].GetComponent<Floor>().Volume.y;
-        camSlider.maxHeight = buildingHeight + roofHeight * 2;
+        camSlider.MaxHeight = buildingHeight + roofHeight * .35f;
 
         //decorate floors
         FloorDecorator.Instance.Decorate(Floors);

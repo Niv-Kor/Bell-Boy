@@ -12,14 +12,6 @@ public class ElevatorsManager : MonoBehaviour
         elevatorsList = new List<MobileElevator>(elevators);
     }
 
-    private void Update() {
-        int floor = FloorBuilder.Instance.GetRandomFloor(true, false).FloorNumber;
-
-        if (Input.GetMouseButtonDown(1)) {
-            elevatorsList[Random.Range(0, 2)].SendToFloor(floor);
-        }
-    }
-
     /// <param name="ID">The elevator's ID</param>
     /// <returns>The specified elevator.</returns>
     public static MobileElevator GetElevator(ElevatorID ID) {

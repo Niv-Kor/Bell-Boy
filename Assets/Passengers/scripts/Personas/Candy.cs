@@ -9,15 +9,18 @@ public class Candy : Passenger
              "there are other passengers on the floor.")]
     [SerializeField] private float blowKissPulse;
 
+    [Tooltip("The heart particles to spawn over the passengers' head when the kiss is blown.")]
+    [SerializeField] private ParticleSystem heartParticles;
+
     private float blowKissTimer;
     private bool delayingJourney;
     private JourneyPath journeyToProceed;
-    private List<Passenger> affectedPassengers;
+    private HashSet<Passenger> affectedPassengers;
 
     public override void Reset() {
         base.Reset();
         this.blowKissTimer = 0;
-        this.affectedPassengers = new List<Passenger>();
+        this.affectedPassengers = new HashSet<Passenger>();
         animationControl.Triggers[StateManchine.SPECIAL].OnFinish += TriggerState_BlowKiss;
     }
 
@@ -68,7 +71,14 @@ public class Candy : Passenger
         foreach (Passenger person in affectedPassengers) {
             person.TargetFloorNum = TargetFloorNum;
 
+            Vector3 personCenter = person.transform.position;
+            personCenter.y += person.Dimension.y / 2;
+            GameObject particles = Instantiate(heartParticles.gameObject);
+            particles.transform.SetParent(person.transform);
+            particles.transform.position = personCenter;
         }
+
+        affectedPassengers.Clear();
     }
 
     public override void CommitToJourney(JourneyPath path, Floor floor) {

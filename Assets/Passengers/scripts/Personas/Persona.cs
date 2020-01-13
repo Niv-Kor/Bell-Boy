@@ -3,5 +3,7 @@
     Paul,
     JimBob,
     Candy,
-    CoopTheRobber
+    CoopTheRobber,
+    RobTheCop,
+    GarbageKids
 }

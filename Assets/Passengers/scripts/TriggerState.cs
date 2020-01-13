@@ -11,6 +11,7 @@ public class TriggerState : StateMachineBehaviour
 
     private static readonly float CANCEL_AFTER_PERCENT = .98f;
 
+    private bool triggered;
     private float stateTime, duration;
     private AnimationControl animationControl;
 
@@ -21,6 +22,7 @@ public class TriggerState : StateMachineBehaviour
 
         this.animationControl = animator.GetComponent<AnimationControl>();
         this.stateTime = stateInfo.length;
+        this.triggered = false;
         this.duration = 0;
     }
 
@@ -29,7 +31,10 @@ public class TriggerState : StateMachineBehaviour
 
         duration += Time.deltaTime;
 
-        if (duration >= stateTime * triggerAfter) OnFinish(this);
-        if (duration >= stateTime * CANCEL_AFTER_PERCENT) animationControl.Animate(ParameterName, false);
+        if (!triggered && duration >= stateTime * triggerAfter) {
+            OnFinish(this);
+            triggered = true;
+        }
+        else if (duration >= stateTime * CANCEL_AFTER_PERCENT) animationControl.Animate(ParameterName, false);
     }
 }

@@ -3,10 +3,10 @@
 public class VerticalCamSlider : MonoBehaviour
 {
     [Tooltip("The minimum height the game camera can reach.")]
-    [SerializeField] public float minHeight;
+    [SerializeField] public float MinHeight;
 
     [Tooltip("The maximum height the game camera can reach.")]
-    [SerializeField] public float maxHeight;
+    [SerializeField] public float MaxHeight;
 
     [Tooltip("The speed of the camera's slide upon swiping (on mobile).")]
     [SerializeField] private float swipeSpeed = .1f;
@@ -24,7 +24,7 @@ public class VerticalCamSlider : MonoBehaviour
 
     private void Awake() {
         Vector3 currentPos = transform.position;
-        transform.position = new Vector3(currentPos.x, minHeight, currentPos.z);
+        transform.position = new Vector3(currentPos.x, MinHeight, currentPos.z);
         this.nextPos = transform.position;
         this.speed = 0;
 
@@ -39,8 +39,8 @@ public class VerticalCamSlider : MonoBehaviour
             Vector3 newPos = Vector3.Lerp(transform.position, nextPos, Time.deltaTime * speed);
 
             //clamp y value
-            if (newPos.y < minHeight) newPos.y = minHeight;
-            else if (newPos.y > maxHeight) newPos.y = maxHeight;
+            if (newPos.y < MinHeight) newPos.y = MinHeight;
+            else if (newPos.y > MaxHeight) newPos.y = MaxHeight;
             transform.position = newPos;
         }
     }

@@ -56,7 +56,7 @@ public class Floor : MonoBehaviour
     public float FloorHeight {
         get {
             BoxCollider floorBox = floorConcrete.GetComponent<BoxCollider>();
-            return floorBox.bounds.center.y - floorBox.bounds.extents.y; 
+            return floorBox.bounds.center.y + floorBox.bounds.extents.y; 
         }
     }
 
@@ -147,21 +147,5 @@ public class Floor : MonoBehaviour
             float hallExtent = WaitingHallContainer.bounds.extents.y;
             this.IndoorHeight = transform.position.y + hallCenter - hallExtent;
         }
-    }
-
-    private void OnDrawGizmos() {
-        if (FloorNumber != 2) return;
-
-        float z = transform.position.z - Volume.z / 4;
-
-        Vector3 floor = new Vector3(transform.position.x, FloorHeight, z);
-        Vector3 roof = new Vector3(transform.position.x, RoofHeight, z);
-        Gizmos.color = Color.green;
-        Gizmos.DrawLine(floor, roof);
-
-        Vector3 indoor = new Vector3(transform.position.x + .5f, IndoorHeight, z);
-        roof = new Vector3(transform.position.x + .5f, RoofHeight, z);
-        Gizmos.color = Color.cyan;
-        Gizmos.DrawLine(indoor, roof);
     }
 }

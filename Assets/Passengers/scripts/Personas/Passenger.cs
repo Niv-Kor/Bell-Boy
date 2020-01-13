@@ -39,6 +39,7 @@ public abstract class Passenger : MonoBehaviour
     public Floor CurrentFloor { get { return FloorBuilder.Instance.Floors[CurrentFloorNum]; } }
     public Floor TargetFloor { get { return FloorBuilder.Instance.Floors[TargetFloorNum[0]]; } }
     public TargetMark TargetMark { get; private set; }
+    public MobileElevator TargetElevatorBuffer { get; set; }
     public int CurrentFloorNum { get; set; }
     public bool WaitingForElevator { get; set; }
     public Vector3 Dimension { get; private set; }

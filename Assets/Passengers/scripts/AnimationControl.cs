@@ -4,14 +4,14 @@ using UnityEngine;
 [RequireComponent(typeof(Animator))]
 public class AnimationControl : MonoBehaviour
 {
-    private static readonly string ABORT_PARAM = "abort";
+    protected static readonly string ABORT_PARAM = "abort";
 
-    private Animator animator;
+    protected Animator animator;
 
     public bool IsIdle { get; private set; }
     public IDictionary<StateManchine.State, TriggerState> Triggers { get; set; }
 
-    private void Awake() {
+    protected virtual void Awake() {
         this.animator = GetComponent<Animator>();
         this.IsIdle = true;
         this.Triggers = new Dictionary<StateManchine.State, TriggerState>();
@@ -26,7 +26,7 @@ public class AnimationControl : MonoBehaviour
     /// Activate an animation.
     /// </summary>
     /// <param name="state">The state to animate</param>
-    public void Animate(StateManchine.State state) {
+    public virtual void Animate(StateManchine.State state) {
         Animate(state, true);
     }
 
@@ -35,7 +35,7 @@ public class AnimationControl : MonoBehaviour
     /// </summary>
     /// <param name="state">The name of the state to animate (upper case sensitive)</param>
     /// <param name="flag">True to animate or false to stop</param>
-    public void Animate(string state, bool flag) {
+    public virtual void Animate(string state, bool flag) {
         Animate(StateManchine.GetState(state), flag);
     }
 
@@ -44,7 +44,7 @@ public class AnimationControl : MonoBehaviour
     /// </summary>
     /// <param name="state">The state to animate</param>
     /// <param name="flag">True to animate or false to stop</param>
-    public void Animate(StateManchine.State state, bool flag) {
+    public virtual void Animate(StateManchine.State state, bool flag) {
         animator.SetBool(state.name, flag);
 
         //check if all states are currently off
@@ -61,14 +61,14 @@ public class AnimationControl : MonoBehaviour
 
     /// <param name="state">The state to check</param>
     /// <returns>True if the state's parameter is currently on</returns>
-    public bool IsAnimating(StateManchine.State state) {
+    public virtual bool IsAnimating(StateManchine.State state) {
         return animator.GetBool(state.name);
     }
 
     /// <summary>
     /// Cancel all parameters and return to Idle state.
     /// </summary>
-    public void Idlize() {
+    public virtual void Idlize() {
         foreach (StateManchine.State state in StateManchine.STATES)
             Animate(state, false);
     }
@@ -76,7 +76,7 @@ public class AnimationControl : MonoBehaviour
     /// <summary>
     /// Immediately cancel all parameters and return to Idle state, wihtout waiting for any exit times.
     /// </summary>
-    public void StrongIdlize() {
+    public virtual void StrongIdlize() {
         animator.SetTrigger(ABORT_PARAM);
         Idlize();
     }

@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: aa9b8b9fabb12494990b2817f65b3fce
+labels:
+- Architecture
+- Ground
+- Pattern
+- Tile
+- Wall
+- Rock
+- Stone
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

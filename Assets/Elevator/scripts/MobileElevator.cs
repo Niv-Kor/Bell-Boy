@@ -274,7 +274,7 @@ public class MobileElevator : StationaryElevator
     }
 
     /// <summary>
-    /// Let in the passengers that need to use this elevator.
+    /// Invite a passenger inside the elevator.
     /// </summary>
     /// <returns>True if the elevator can accept the passenger.</returns>
     public bool ReceivePassenger(Passenger passenger) {
@@ -284,6 +284,7 @@ public class MobileElevator : StationaryElevator
         foreach (int targetFloor in passenger.TargetFloorNum) pendingTasks.Push(targetFloor);
 
         Floor currentFloorComponent = FloorBuilder.Instance.Floors[CurrentFloorNum];
+        passenger.TargetElevatorBuffer = this;
         passenger.CommitToJourney(JourneyPath.ElevatorEntrance, currentFloorComponent);
         currentFloorComponent.Passengers.Remove(passenger);
         passengers.Add(passenger);
