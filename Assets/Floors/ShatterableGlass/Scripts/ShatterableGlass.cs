@@ -68,23 +68,20 @@ public class ShatterableGlass : MonoBehaviour
     // Converts Global 3D point to local 2D point and calls Shatter(). Please refer to Figure 2.2.
     public void Shatter3D(ShatterableGlassInfo Inf)
     {
-
         // Check if any of parents have non-{1, 1, 1} scale.
         // If any of parents have wrong scale conversion and shattering will be incorrect.
-        Transform Parent = gameObject.transform.parent;
+        Transform parent = transform.parent;
 
-        bool Sucsess = true;
+        bool success = true;
 
-        while (Parent != null)
+        while (parent != null)
         {
-            if (Parent.localScale.x != 1f || Parent.localScale.y != 1f || Parent.localScale.y != 1f)
-                Sucsess = false;
-            Parent = Parent.parent;
+            if (parent.localScale.x != 1f || parent.localScale.y != 1f || parent.localScale.y != 1f) success = false;
+            parent = parent.parent;
         }
 
         // Using lossyScale may cause problems, throw warning.
-        if (!Sucsess)
-            Debug.LogWarning(gameObject.name + ": scale of all parents in hierarchy recommended to be {1, 1, 1}. Glass may shatter weirdly.");
+        if (!success) Debug.LogWarning(gameObject.name + ": scale of all parents in hierarchy recommended to be {1, 1, 1}. Glass may shatter weirdly.");
 
         // There we use triangle to determine 2D point. Please refer to figure 2.2.
         // Local bottom left and bottom right points.
@@ -215,13 +212,12 @@ public class ShatterableGlass : MonoBehaviour
             Filter.sharedMesh = Model;
 
             // if gib must be Rigidbody:
-            if (!ShatterButNotBreak)
-            {
+            if (!ShatterButNotBreak) {
                 Fig.GenerateCollider(GlassThickness, Obj);
-                Rigidbody Rig = Obj.AddComponent<Rigidbody>();
+                Rigidbody rig = Obj.AddComponent<Rigidbody>();
 
                 // Apply Force. Closer to HitPoint - greater force.
-                Rig.AddForce(ForceDirrection * Random.Range(Force, Force * 1.5f) / Fig.ForceScale);
+                rig.AddForce(ForceDirrection * Random.Range(Force, Force * 1.5f) / Fig.ForceScale);
 
                 if (GibsOnSeparateLayer)
                     Obj.layer = GibsLayer;

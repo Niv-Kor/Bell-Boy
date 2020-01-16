@@ -115,12 +115,12 @@ MonoBehaviour:
   GlassThickness: 0.025
   ShatterButNotBreak: 0
   SlightlyRotateGibs: 1
-  DestroyGibs: 1
+  DestroyGibs: 0
   AfterSeconds: 10
   GibsOnSeparateLayer: 0
   GibsLayer: 0
   Force: 100
-  AdoptFragments: 0
+  AdoptFragments: 1
 --- !u!82 &8200000
 AudioSource:
   m_ObjectHideFlags: 0

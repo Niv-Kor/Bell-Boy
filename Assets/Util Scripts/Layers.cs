@@ -13,6 +13,7 @@ namespace Constants
         public static readonly string NAME_PERSON = "Person";
         public static readonly string NAME_GROUND = "Ground";
         public static readonly string NAME_ELEVATOR = "Elevator";
+        public static readonly string NAME_BUILDINGS = "Buildings";
 
         //masks
         public static readonly LayerMask DEFAULT = LayerMask.GetMask(NAME_DEFAULT);
@@ -23,6 +24,7 @@ namespace Constants
         public static readonly LayerMask PERSON = LayerMask.GetMask(NAME_PERSON);
         public static readonly LayerMask GROUND = LayerMask.GetMask(NAME_GROUND);
         public static readonly LayerMask ELEVATOR = LayerMask.GetMask(NAME_ELEVATOR);
+        public static readonly LayerMask BUILDINGS = LayerMask.GetMask(NAME_BUILDINGS);
 
         /// <summary>
         /// Check if a certain layer is contained in a layer mask.

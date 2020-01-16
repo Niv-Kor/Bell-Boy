@@ -6,5 +6,6 @@
     ElevatorCall,
     ElevatorEntrance,
     ElevatorExit,
-    WindowJump
+    WindowJump,
+    Pedestrian
 }

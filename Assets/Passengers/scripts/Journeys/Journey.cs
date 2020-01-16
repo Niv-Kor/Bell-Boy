@@ -39,7 +39,7 @@ public abstract class Journey
         this.Speed = speed;
         this.enteredHall = false;
         this.lookAtElevator = false;
-        this.floorplan = floor.GetComponent<FloorPlanBlueprint>();
+        this.floorplan = (floor != null) ? floor.GetComponent<FloorPlanBlueprint>() : null;
         this.animationControl = passenger.GetComponent<AnimationControl>();
         this.dimension = passenger.GetComponent<BoxCollider>().size;
     }
@@ -60,6 +60,7 @@ public abstract class Journey
             case JourneyPath.ElevatorEntrance: return new ElevatorEntranceJourney(passenger, floor, walkSpeed);
             case JourneyPath.ElevatorExit: return new ElevatorExitJourney(passenger, floor, walkSpeed);
             case JourneyPath.WindowJump: return new WindowJumpJourney(passenger, floor, walkSpeed);
+            case JourneyPath.Pedestrian: return new PedestrianJourney(passenger, walkSpeed);
             default: return null;
         }
     }
@@ -72,7 +73,7 @@ public abstract class Journey
         if (paused) return false;
 
         //passenger is entering the hall for the first time in this journey
-        if (!enteredHall && floor.IsInWaitingHall(passenger)) {
+        if (floor != null && !enteredHall && floor.IsInWaitingHall(passenger)) {
             enteredHall = true;
             OnEnteringHall();
         }

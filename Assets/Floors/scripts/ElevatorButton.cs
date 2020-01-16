@@ -38,6 +38,10 @@ public class ElevatorButton : MonoBehaviour
     /// Call The elevator.
     /// </summary>
     public void Call() {
+        //check if any elevator is already open
+        foreach (MobileElevator elevator in ElevatorsManager.GetAllElevators())
+            if (elevator.CurrentFloorNum == floor.FloorNumber && (elevator.IsOpen || elevator.IsOpening)) return;
+
         Switch(true);
         OnElevatorCall(this);
     }

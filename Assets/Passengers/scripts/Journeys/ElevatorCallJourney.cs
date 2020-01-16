@@ -19,7 +19,7 @@ public class ElevatorCallJourney : Journey
                 pressing = false;
             }
         }
-        else if (finishMovement && finishRotation && animationControl.IsIdle && floor.ElevatorButton.IsOn) {
+        else if (finishMovement && finishRotation && animationControl.IsIdle) {
             usingSpecialRotation = false;
             ContinuePath();
         }

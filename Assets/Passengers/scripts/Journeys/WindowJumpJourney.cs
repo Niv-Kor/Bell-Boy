@@ -7,7 +7,7 @@ public class WindowJumpJourney : Journey
     private static readonly float DISTANCE_TO_JUMP = 1;
     private static readonly float DISTANCE_TO_FALL = .7f;
     private static readonly float MAX_JUMP_DISTANCE = .3f;
-    private static readonly float FALL_SPEED = 8;
+    private static readonly float FALL_SPEED = 9;
 
     private GameObject window;
     private Vector3 throwVector, fallPoint;
@@ -92,16 +92,25 @@ public class WindowJumpJourney : Journey
         fallPoint.z = z;
         path.Enqueue(fallPoint);
 
-        //point of crash
-        Vector2 topVertex = new Vector2(0, floor.RoofHeight);
-        Vector2 sideVertex = new Vector2(Random.Range(0f, MAX_JUMP_DISTANCE) * throwVector.x, 0);
-        float hypotenuseEdge = Vector2.Distance(topVertex, sideVertex);
-        Vector3 down = Vector3.down;
-        down.x = sideVertex.x;
-        Physics.Raycast(fallPoint, down, out RaycastHit hit, hypotenuseEdge, Layers.GROUND);
-        Vector3 crashPoint = hit.point;
+        //crash point
+        bool crashToLeft = fallPoint.x < floor.transform.position.x;
+        CrashPoints crashGenerator = Object.FindObjectOfType<CrashPoints>();
+        BoxCollider crashArea = crashToLeft ? crashGenerator.LeftArea : crashGenerator.RightArea;
+        Vector3 crashPoint = crashToLeft ? crashGenerator.GenerateLeft() : crashGenerator.GenerateRight();
+
+        //modify the crash position so the passenger won't hit another building
+        float halfDimension = dimension.y * throwVector.x / 2;
+        float areaXCenter = crashArea.bounds.center.x;
+        float headX = crashPoint.x + halfDimension;
+        float legsX = crashPoint.x - halfDimension;
+        float headToCenterDist = Mathf.Abs(headX - areaXCenter);
+        float legsToCenterDist = Mathf.Abs(legsX - areaXCenter);
+        float xExtent = crashArea.bounds.extents.x;
+
+        if (headToCenterDist > xExtent) crashPoint.x -= (headToCenterDist - xExtent) * throwVector.x;
+        else if (legsToCenterDist > xExtent) crashPoint.x += (legsToCenterDist - xExtent) * throwVector.x;
+
         crashPoint.y += dimension.z * .3f;
-        crashPoint.z = z;
         path.Enqueue(crashPoint);
 
         return path;

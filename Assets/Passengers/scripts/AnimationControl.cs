@@ -78,6 +78,7 @@ public class AnimationControl : MonoBehaviour
     /// </summary>
     public virtual void StrongIdlize() {
         animator.SetTrigger(ABORT_PARAM);
+        animator.ResetTrigger(ABORT_PARAM);
         Idlize();
     }
 }

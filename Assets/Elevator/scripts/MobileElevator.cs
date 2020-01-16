@@ -320,6 +320,8 @@ public class MobileElevator : StationaryElevator
         if (tasksQueue.Count == 0 && pendingTasks.Count > 0) AddBulkTasks(pendingTasks.ToArray());
         //push all pending buttons in their order
         else while (pendingTasks.Count > 0) SendToFloor(pendingTasks.Pop());
+
+        pendingTasks.Clear();
     }
 
     /// <param name="passenger">The passenger to check</param>

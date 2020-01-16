@@ -111,9 +111,10 @@ public abstract class Passenger : MonoBehaviour
         Navigate();
 
         if (!IsDestroyed) {
+            //respawn attempt
             if (failedSpawnAttempt) {
                 failedSpawnTimer += Time.deltaTime;
-                if (failedSpawnTimer >= SpawnControl.Instance.RespawnRate) {
+                if (failedSpawnTimer >= SpawnControl.Instance.FloorSpawnRate) {
                     AddJourney(JourneyPath.FloorEntrance, CurrentFloor);
                     failedSpawnAttempt = false;
                     failedSpawnTimer = 0;

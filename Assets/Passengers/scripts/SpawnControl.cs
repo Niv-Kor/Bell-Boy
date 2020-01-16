@@ -4,31 +4,44 @@ public class SpawnControl : Singleton<SpawnControl>
 {
     [Header("Timinig")]
 
-    [Tooltip("Amount of time (in seconds) until the next spawn.")]
-    [SerializeField] public float SpawnRate;
+    [Tooltip("Amount of time (in seconds) until the next spawn of a passenger in one of the floors.")]
+    [SerializeField] public float FloorSpawnRate;
 
-    [Tooltip("Amount of time (in seconds) until an unsuccessful spawn is attempted again.")]
-    [SerializeField] public float RespawnRate;
+    [Tooltip("Amount of time (in seconds) until the next spawn of a pedestrian.")]
+    [SerializeField] public float PedestianSpawnRate;
+
+    [Header("Debug")]
+
+    [Tooltip("True to enable pedestrians to travel around the street.")]
+    [SerializeField] private bool enablePedestrians = true;
 
     private static readonly string HUMANS_PARENT_NAME = "Humans";
 
     private GameObject humansParent;
     private PassengersPool pool;
-    private float spawnTimer;
+    private float floorSpawnTimer, pedestrianSpawnTimer;
 
     private void Start() {
         this.pool = GetComponent<PassengersPool>();
         this.humansParent = new GameObject(HUMANS_PARENT_NAME);
         humansParent.transform.SetParent(transform);
-        this.spawnTimer = SpawnRate;
+        this.floorSpawnTimer = FloorSpawnRate;
+        this.pedestrianSpawnTimer = PedestianSpawnRate;
     }
 
     private void Update() {
-        if (spawnTimer >= SpawnRate) {
-            spawnTimer = 0;
+        if (floorSpawnTimer >= FloorSpawnRate) {
+            floorSpawnTimer = 0;
             Spawn();
         }
-        else spawnTimer += Time.deltaTime;
+
+        if (enablePedestrians && pedestrianSpawnTimer >= PedestianSpawnRate) {
+            pedestrianSpawnTimer = 0;
+            SpawnPedestrian();
+        }
+
+        floorSpawnTimer += Time.deltaTime;
+        pedestrianSpawnTimer += Time.deltaTime;
     }
 
     /// <summary>
@@ -78,6 +91,18 @@ public class SpawnControl : Singleton<SpawnControl>
         passengerComponent.Reset();
         passengerComponent.AddJourney(JourneyPath.FloorEntrance, floor);
         floor.Passengers.Add(passengerComponent);
+    }
+
+    public void SpawnPedestrian() {
+        SpawnPedestrian(pool.Lease());
+    }
+
+    private void SpawnPedestrian(GameObject passenger) {
+        passenger.transform.SetParent(humansParent.transform);
+        Passenger passengerComponent = passenger.GetComponent<Passenger>();
+        passengerComponent.StartingFloorNum = 0;
+        passengerComponent.Reset();
+        passengerComponent.AddJourney(JourneyPath.Pedestrian, null);
     }
 
     /// <summary>
