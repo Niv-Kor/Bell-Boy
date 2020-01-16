@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(PassengerAnimator))]
 public abstract class Passenger : MonoBehaviour
 {
     [Header("Timing")]
@@ -28,7 +29,8 @@ public abstract class Passenger : MonoBehaviour
 
     protected JourneyData currentJourney;
     protected Queue<JourneyData> journeys;
-    protected AnimationControl animationControl;
+    protected PassengerAnimator passengerAnimator;
+    protected SoundMixer soundMixer;
     protected int startingFloorNum;
     protected float failedSpawnTimer, disposeTimer;
     protected bool destroyed, failedSpawnAttempt;
@@ -84,12 +86,13 @@ public abstract class Passenger : MonoBehaviour
         }
     }
 
-    protected void Awake() {
+    protected virtual void Awake() {
         this.ID = Random.Range(0, int.MaxValue);
         this.journeys = new Queue<JourneyData>();
         this.currentJourney = new JourneyData(null, JourneyPath.Blank);
         this.TargetMark = GetComponentInChildren<TargetMark>();
-        this.animationControl = GetComponent<AnimationControl>();
+        this.soundMixer = GetComponent<SoundMixer>();
+        this.passengerAnimator = GetComponent<PassengerAnimator>();
         this.Dimension = GetComponent<BoxCollider>().size;
     }
 
@@ -242,7 +245,7 @@ public abstract class Passenger : MonoBehaviour
     /// Cancel all upcoming journeys, including the current one.
     /// </summary>
     public void ClearJourneys() {
-        animationControl.StrongIdlize();
+        passengerAnimator.StrongIdlize();
         currentJourney.Clear();
         journeys.Clear();
     }

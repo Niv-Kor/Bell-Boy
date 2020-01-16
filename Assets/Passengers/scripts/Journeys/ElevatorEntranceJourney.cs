@@ -77,7 +77,7 @@ public class ElevatorEntranceJourney : Journey
     }
 
     protected override void OnFinish() {
-        animationControl.Idlize();
+        passengerAnimator.Idlize();
     }
 
     protected override bool LookAtElevatorOnFinish() { return false; }

@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(BoxCollider))]
-[RequireComponent(typeof(AnimationControl))]
 public abstract class Journey
 {
     protected static readonly float WALK_TO_ROTATION_RATIO = 150;
@@ -11,7 +9,7 @@ public abstract class Journey
 
     protected Floor floor;
     protected Queue<Vector3> path;
-    protected AnimationControl animationControl;
+    protected PassengerAnimator passengerAnimator;
     protected FloorPlanBlueprint floorplan;
     protected Passenger passenger;
     protected Transform transform;
@@ -40,7 +38,7 @@ public abstract class Journey
         this.enteredHall = false;
         this.lookAtElevator = false;
         this.floorplan = (floor != null) ? floor.GetComponent<FloorPlanBlueprint>() : null;
-        this.animationControl = passenger.GetComponent<AnimationControl>();
+        this.passengerAnimator = passenger.GetComponent<PassengerAnimator>();
         this.dimension = passenger.GetComponent<BoxCollider>().size;
     }
 
@@ -104,7 +102,7 @@ public abstract class Journey
         bool reached = VectorSensitivity.EffectivelyReached(transform.position, nextPoint, LERP_TOLERANCE);
 
         //animate
-        animationControl.Animate(StateManchine.WALK, !reached);
+        passengerAnimator.Activate(PassengerAnimator.WALK, !reached);
 
         return reached;
     }

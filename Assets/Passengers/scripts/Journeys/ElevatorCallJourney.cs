@@ -8,18 +8,18 @@ public class ElevatorCallJourney : Journey
     public ElevatorCallJourney(Passenger passenger, Floor floor, float walkSpeed) :
     base(passenger, floor, walkSpeed) {
         this.pressing = true;
-        animationControl.Triggers[StateManchine.PRESS].OnFinish += TriggerState_CallElevator;
+        passengerAnimator.AnimationTape.Triggers["press"].OnFinish += TriggerState_CallElevator;
     }
 
     protected override void Travel(bool finishMovement, bool finishRotation) {
-        if (pressing && !animationControl.IsAnimating(StateManchine.PRESS)) {
+        if (pressing && !passengerAnimator.IsAtState(PassengerAnimator.PRESS)) {
             //press elevator button
             if (finishMovement && finishRotation) {
-                animationControl.Animate(StateManchine.PRESS);
+                passengerAnimator.Activate(PassengerAnimator.PRESS);
                 pressing = false;
             }
         }
-        else if (finishMovement && finishRotation && animationControl.IsIdle) {
+        else if (finishMovement && finishRotation && passengerAnimator.IsIdle) {
             usingSpecialRotation = false;
             ContinuePath();
         }
@@ -60,9 +60,9 @@ public class ElevatorCallJourney : Journey
     }
 
     protected override void OnFinish() {
-        animationControl.Triggers[StateManchine.PRESS].OnFinish -= TriggerState_CallElevator;
+        passengerAnimator.AnimationTape.Triggers["press"].OnFinish -= TriggerState_CallElevator;
         floor.ElevatorBeingCalled = false;
-        animationControl.Idlize();
+        passengerAnimator.Idlize();
     }
 
     protected override bool LookAtElevatorOnFinish() { return true; }

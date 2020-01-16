@@ -13,14 +13,14 @@ public class TriggerState : StateMachineBehaviour
 
     private bool triggered;
     private float stateTime, duration;
-    private AnimationControl animationControl;
+    private AnimationTape animationControl;
 
     public event System.Action<TriggerState> OnFinish = delegate {};
 
     public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
         base.OnStateEnter(animator, stateInfo, layerIndex);
 
-        this.animationControl = animator.GetComponent<AnimationControl>();
+        this.animationControl = animator.GetComponent<AnimationTape>();
         this.stateTime = stateInfo.length;
         this.triggered = false;
         this.duration = 0;
@@ -35,6 +35,6 @@ public class TriggerState : StateMachineBehaviour
             OnFinish(this);
             triggered = true;
         }
-        else if (duration >= stateTime * CANCEL_AFTER_PERCENT) animationControl.Animate(ParameterName, false);
+        else if (duration >= stateTime * CANCEL_AFTER_PERCENT) animationControl.Activate(ParameterName, false);
     }
 }

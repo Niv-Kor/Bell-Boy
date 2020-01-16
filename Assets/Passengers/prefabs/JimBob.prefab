@@ -1397,8 +1397,11 @@ GameObject:
   - component: {fileID: 3579166951909667764}
   - component: {fileID: 303430317103103150}
   - component: {fileID: 7344452074705312809}
+  - component: {fileID: 6815548361331731703}
+  - component: {fileID: 4682166069366437476}
+  - component: {fileID: 7824848004437603196}
   m_Layer: 8
-  m_Name: Herbert
+  m_Name: JimBob
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1558,9 +1561,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 155352}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c84cdcd9abd4c124691970d4b7908f58, type: 3}
+  m_Script: {fileID: 11500000, guid: 46abb8a23a247ac408649ba0fc36b746, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  states:
+  - walk
+  - run
+  - jump
+  - fall
+  - crash
+  - press
 --- !u!114 &3579166951909667764
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1603,9 +1613,48 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   walkSpeed: 1.3
+  RunSpeedMultiplier: 2
   Patience: 30
   targetMarkSymbol: 1
   ID: 0
+--- !u!114 &6815548361331731703
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 155352}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5365e83f67566ad4388aca429386cf27, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tunes: []
+--- !u!114 &4682166069366437476
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 155352}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 14f749d34e437114b8f7b6dd8759324e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  states: []
+--- !u!114 &7824848004437603196
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 155352}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2777884822c67734f9ceb595932de2a4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &155400
 GameObject:
   m_ObjectHideFlags: 0

@@ -133,7 +133,6 @@ public class PassengerNavigator : MonoBehaviour
         List<MobileElevator> elevators = ElevatorsManager.GetAllElevators();
         List<MobileElevator> targetElevators = new List<MobileElevator>();
         ElevatorDirection passengerDirection = passenger.ApparentDirection;
-        print("passenger " + passenger.ID + " apparent direction is " + passengerDirection);
 
         foreach (MobileElevator elevator in elevators) {
             bool sameFloor = elevator.CurrentFloorNum == passenger.CurrentFloorNum;
@@ -143,13 +142,7 @@ public class PassengerNavigator : MonoBehaviour
             if (sameFloor && elevatorOpen && sameDirection) {
                 targetElevators.Add(elevator);
             }
-            else {
-                print("for elevator " + elevator.ID + " is " + sameFloor + ", " + elevatorOpen + ", " + sameDirection);
-                print("where direction is " + elevator.Direction);
-            }
         }
-
-        print("\n");
 
         foreach (MobileElevator elevator in targetElevators) {
             mousePos.z = elevator.transform.position.z;

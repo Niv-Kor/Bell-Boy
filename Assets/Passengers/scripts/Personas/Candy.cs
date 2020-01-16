@@ -21,13 +21,13 @@ public class Candy : Passenger
         base.Reset();
         this.blowKissTimer = 0;
         this.affectedPassengers = new HashSet<Passenger>();
-        animationControl.Triggers[StateManchine.SPECIAL].OnFinish += TriggerState_BlowKiss;
+        passengerAnimator.AnimationTape.Triggers["special"].OnFinish += TriggerState_BlowKiss;
     }
 
     protected override void Update() {
         base.Update();
 
-        if (WaitingForElevator && animationControl.IsIdle) {
+        if (WaitingForElevator && passengerAnimator.IsIdle) {
             List<Passenger> floorPassengers = CurrentFloor.Passengers;
 
             //check if any other passenger is waiting for the elevator
@@ -49,7 +49,7 @@ public class Candy : Passenger
                 //blow a kiss in the air
                 if (blowKissTimer >= blowKissPulse) {
                     if (currentJourney.Journey != null) currentJourney.Journey.Pause(true);
-                    animationControl.Animate(StateManchine.SPECIAL);
+                    passengerAnimator.Activate(PassengerAnimator.SPECIAL);
                     blowKissTimer = 0;
                 }
             }
@@ -57,7 +57,7 @@ public class Candy : Passenger
         }
 
         //resume a delayed commited journey
-        if (delayingJourney && !animationControl.IsAnimating(StateManchine.SPECIAL)) {
+        if (delayingJourney && !passengerAnimator.IsAtState(PassengerAnimator.SPECIAL)) {
             delayingJourney = false;
             CommitToJourney(journeyToProceed, CurrentFloor);
             journeyToProceed = default;
@@ -68,6 +68,8 @@ public class Candy : Passenger
     /// Change all passengers' target floors to the same one as candy's.
     /// </summary>
     private void TriggerState_BlowKiss(TriggerState trigger) {
+        if (affectedPassengers.Count > 0) soundMixer.Activate("whisle");
+
         foreach (Passenger person in affectedPassengers) {
             person.TargetFloorNum = TargetFloorNum;
 
@@ -82,7 +84,7 @@ public class Candy : Passenger
     }
 
     public override void CommitToJourney(JourneyPath path, Floor floor) {
-        if (animationControl.IsAnimating(StateManchine.SPECIAL)) {
+        if (passengerAnimator.IsAtState(PassengerAnimator.SPECIAL)) {
             delayingJourney = true;
             journeyToProceed = path;
             return;
@@ -102,7 +104,7 @@ public class Candy : Passenger
     public override bool CanBeSpawned() { return true; }
 
     public override void Destroy() {
-        animationControl.Triggers[StateManchine.SPECIAL].OnFinish -= TriggerState_BlowKiss;
+        passengerAnimator.AnimationTape.Triggers["special"].OnFinish -= TriggerState_BlowKiss;
         base.Destroy();
     }
 }

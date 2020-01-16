@@ -1,13 +1,11 @@
-﻿using Constants;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class WindowJumpJourney : Journey
 {
     private static readonly float DISTANCE_TO_JUMP = 1;
     private static readonly float DISTANCE_TO_FALL = .7f;
-    private static readonly float MAX_JUMP_DISTANCE = .3f;
-    private static readonly float FALL_SPEED = 9;
+    private static readonly float FALL_SPEED = 10;
 
     private GameObject window;
     private Vector3 throwVector, fallPoint;
@@ -22,15 +20,15 @@ public class WindowJumpJourney : Journey
     protected override void Travel(bool finishMovement, bool finishRotation) {
         if (!thrown) {
             //start running
-            if (!animationControl.IsAnimating(StateManchine.RUN)) {
-                animationControl.Animate(StateManchine.RUN);
+            if (!passengerAnimator.IsAtState(PassengerAnimator.RUN)) {
+                passengerAnimator.Activate(PassengerAnimator.RUN);
                 Speed *= passenger.RunSpeedMultiplier;
             }
 
             //jump at window
             if (finishMovement) {
-                animationControl.Animate(StateManchine.JUMP, true);
-                animationControl.Animate(StateManchine.RUN, false);
+                passengerAnimator.Activate(PassengerAnimator.JUMP, true);
+                passengerAnimator.Activate(PassengerAnimator.RUN, false);
                 ContinuePath();
                 thrown = true;
 
@@ -42,16 +40,16 @@ public class WindowJumpJourney : Journey
         else if (finishMovement) {
             //fall
             if (!fall) {
-                animationControl.Animate(StateManchine.FALL, true);
-                animationControl.Animate(StateManchine.JUMP, false);
+                passengerAnimator.Activate(PassengerAnimator.FALL, true);
+                passengerAnimator.Activate(PassengerAnimator.JUMP, false);
                 Speed = FALL_SPEED;
                 ContinuePath();
                 fall = true;
             }
             //crash
             else {
-                animationControl.Animate(StateManchine.CRASH, true);
-                animationControl.Animate(StateManchine.FALL, false);
+                passengerAnimator.Activate(PassengerAnimator.CRASH, true);
+                passengerAnimator.Activate(PassengerAnimator.FALL, false);
                 ContinuePath();
             }
         }
