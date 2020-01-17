@@ -4,19 +4,19 @@
 public class Tune
 {
     [Tooltip("The name of the tune.")]
-    [SerializeField] public string name;
+    [SerializeField] public string Name;
 
     [Tooltip("The audio file to play.")]
-    [SerializeField] public AudioClip clip;
+    [SerializeField] public AudioClip Clip;
 
     [Tooltip("The volume of the sound (0-1).")]
-    [SerializeField] [Range(0f, 1f)] public float volume = .5f;
+    [SerializeField] [Range(0f, 1f)] public float Volume = .5f;
 
     [Tooltip("The pitch of the sound.")]
-    [SerializeField] [Range(.1f, 3f)] public float pitch = 1;
+    [SerializeField] public float Pitch = 1;
 
     [Tooltip("Delay to add before the sound starts (in seconds).")]
-    [SerializeField] public float delay = 0;
+    [SerializeField] public float Delay = 0;
 
     private AudioSource source;
 
@@ -26,15 +26,15 @@ public class Tune
     /// <param name="src">An AudioSource component</param>
     public void SetSource(AudioSource src) {
         this.source = src;
-        source.clip = clip;
-        source.volume = volume;
-        source.pitch = pitch;
+        source.clip = Clip;
+        source.volume = Volume;
+        source.pitch = Pitch;
     }
 
     /// <summary>
     /// Play the tune.
     /// </summary>
-    public void Play() { source.PlayDelayed(delay); }
+    public void Play() { source.PlayDelayed(Delay); }
 
     /// <summary>
     /// Stop the tune.
@@ -47,12 +47,12 @@ public class Tune
     /// <param name="vol">The new volume of the tune</param>
     public void SetVolume(float vol) {
         source.volume = vol;
-        volume = vol;
+        Volume = vol;
     }
 
     /// <param name="ptch">The new pitch of the tune</param>
     public void SetPitch(float ptch) {
         source.pitch = ptch;
-        pitch = ptch;
+        Pitch = ptch;
     }
 }

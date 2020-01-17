@@ -21,7 +21,7 @@ public class Candy : Passenger
         base.Reset();
         this.blowKissTimer = 0;
         this.affectedPassengers = new HashSet<Passenger>();
-        passengerAnimator.AnimationTape.Triggers["special"].OnFinish += TriggerState_BlowKiss;
+        passengerAnimator.AnimationTape.Triggers["special"].Subscribe(TriggerState_BlowKiss);
     }
 
     protected override void Update() {
@@ -35,7 +35,7 @@ public class Candy : Passenger
                 if (person == this) continue;
 
                 bool isTargetingOneFloor = person.TargetFloorNum.Count == 1;
-                bool isAlreadyAffected = person.TargetFloorNum[0] == TargetFloorNum[0];
+                bool isAlreadyAffected = (person.TargetFloorNum[0] == TargetFloorNum[0]) && person.ApparentDirection != ElevatorDirection.Both;
                 bool isAffectable = !(person is Candy);
 
                 if (person.WaitingForElevator && isTargetingOneFloor && !isAlreadyAffected && isAffectable)
@@ -67,19 +67,25 @@ public class Candy : Passenger
     /// <summary>
     /// Change all passengers' target floors to the same one as candy's.
     /// </summary>
-    private void TriggerState_BlowKiss(TriggerState trigger) {
-        if (affectedPassengers.Count > 0) soundMixer.Activate("whisle");
+    private void TriggerState_BlowKiss() {
+        bool playWhisle = false;
 
         foreach (Passenger person in affectedPassengers) {
+            //passenger has already entered the elevator during the kiss
+            if (!person.WaitingForElevator) continue;
+
             person.TargetFloorNum = TargetFloorNum;
+            person.TargetMarkSymbol = TargetMarkSymbol.Numeral;
 
             Vector3 personCenter = person.transform.position;
             personCenter.y += person.Dimension.y / 2;
             GameObject particles = Instantiate(heartParticles.gameObject);
             particles.transform.SetParent(person.transform);
             particles.transform.position = personCenter;
+            playWhisle = true;
         }
 
+        if (playWhisle) soundMixer.Activate("whisle");
         affectedPassengers.Clear();
     }
 
@@ -104,7 +110,8 @@ public class Candy : Passenger
     public override bool CanBeSpawned() { return true; }
 
     public override void Destroy() {
-        passengerAnimator.AnimationTape.Triggers["special"].OnFinish -= TriggerState_BlowKiss;
+        passengerAnimator.AnimationTape.Triggers["special"].Unsubscribe(TriggerState_BlowKiss);
+        affectedPassengers.Clear();
         base.Destroy();
     }
 }

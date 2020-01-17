@@ -11,14 +11,14 @@ public class ElevatorButton : MonoBehaviour
     [Tooltip("The button frame objet.")]
     [SerializeField] private GameObject buttonFrame;
 
-    public event System.Action<ElevatorButton> OnElevatorCall = delegate {};
     private MeshRenderer buttonRender;
-    private Floor floor;
+    private SoundMixer soundMixer;
 
+    public event System.Action<ElevatorButton> OnElevatorCall = delegate {};
     public bool IsOn { get; private set; }
 
     private void Start() {
-        this.floor = GetComponentInParent<Floor>();
+        this.soundMixer = GetComponent<SoundMixer>();
         this.buttonRender = buttonFrame.GetComponent<MeshRenderer>();
         this.IsOn = false;
     }
@@ -31,18 +31,14 @@ public class ElevatorButton : MonoBehaviour
         IsOn = flag;
         Material mat = flag ? onColor : offColor;
         buttonRender.material = mat;
-        floor.ElevatorBeingCalled = flag;
     }
 
     /// <summary>
     /// Call The elevator.
     /// </summary>
     public void Call() {
-        //check if any elevator is already open
-        foreach (MobileElevator elevator in ElevatorsManager.GetAllElevators())
-            if (elevator.CurrentFloorNum == floor.FloorNumber && (elevator.IsOpen || elevator.IsOpening)) return;
-
         Switch(true);
         OnElevatorCall(this);
+        soundMixer.Activate("click");
     }
 }

@@ -8,7 +8,6 @@ public class ElevatorCallJourney : Journey
     public ElevatorCallJourney(Passenger passenger, Floor floor, float walkSpeed) :
     base(passenger, floor, walkSpeed) {
         this.pressing = true;
-        passengerAnimator.AnimationTape.Triggers["press"].OnFinish += TriggerState_CallElevator;
     }
 
     protected override void Travel(bool finishMovement, bool finishRotation) {
@@ -28,7 +27,7 @@ public class ElevatorCallJourney : Journey
     /// <summary>
     /// Call The elevator to the floor.
     /// </summary>
-    private void TriggerState_CallElevator(TriggerState trigger) {
+    private void TriggerState_CallElevator() {
         floor.ElevatorButton.Call();
     }
 
@@ -56,11 +55,12 @@ public class ElevatorCallJourney : Journey
     }
 
     protected override void OnStart() {
+        passengerAnimator.AnimationTape.Triggers["press"].Subscribe(TriggerState_CallElevator);
         floor.ElevatorBeingCalled = true;
     }
 
     protected override void OnFinish() {
-        passengerAnimator.AnimationTape.Triggers["press"].OnFinish -= TriggerState_CallElevator;
+        passengerAnimator.AnimationTape.Triggers["press"].Unsubscribe(TriggerState_CallElevator);
         floor.ElevatorBeingCalled = false;
         passengerAnimator.Idlize();
     }

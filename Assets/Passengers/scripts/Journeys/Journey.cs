@@ -15,8 +15,8 @@ public abstract class Journey
     protected Transform transform;
     protected Vector3 dimension;
     protected Vector3 nextPoint, specialRotationTarget;
-    protected bool paused, usingSpecialRotation;
-    private bool enteredHall, lookAtElevator;
+    protected bool stopped, paused, usingSpecialRotation, lookAtElevator;
+    private bool enteredHall;
     private float speed, rotationSpeed;
 
     protected float Speed {
@@ -35,6 +35,7 @@ public abstract class Journey
         this.transform = passenger.transform;
         this.floor = floor;
         this.Speed = speed;
+        this.stopped = false;
         this.enteredHall = false;
         this.lookAtElevator = false;
         this.floorplan = (floor != null) ? floor.GetComponent<FloorPlanBlueprint>() : null;
@@ -173,16 +174,17 @@ public abstract class Journey
     /// Pause the journey.
     /// </summary>
     /// <param name="flag">True to pause or false to resume</param>
-    public void Pause(bool flag) {
-        paused = flag;
-    }
+    public void Pause(bool flag) { paused = flag; }
 
     /// <summary>
     /// Stop the journey.
     /// </summary>
     public void Stop() {
+        if (stopped) return;
+
         OnFinish();
         path = null;
+        stopped = true;
     }
 
     /// <returns>A path for the passenger to walk through.</returns>

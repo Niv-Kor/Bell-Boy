@@ -10,10 +10,14 @@ public class SoundMixer : StateMachine
     }
 
     public override void Activate(string param, bool flag) {
+        if (param == "crash") print("asked to play crash");
         Tune tune = jukebox.Get(param);
 
         if (tune != null) {
-            if (flag) tune.Play();
+            if (flag) {
+                if (tune.Name == "crash") { print("played crash"); }
+                tune.Play();
+            }
             else tune.Stop();
         }
     }

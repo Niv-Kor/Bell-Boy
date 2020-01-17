@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using UnityEngine.Animations;
 
 public class TriggerState : StateMachineBehaviour
 {
@@ -11,30 +10,47 @@ public class TriggerState : StateMachineBehaviour
 
     private static readonly float CANCEL_AFTER_PERCENT = .98f;
 
-    private bool triggered;
+    private bool triggered, canceled;
     private float stateTime, duration;
-    private AnimationTape animationControl;
+    private PassengerAnimator passengerAnimator;
 
-    public event System.Action<TriggerState> OnFinish = delegate {};
+    public delegate void OnTrigger();
+    private event OnTrigger OnTriggerEvent;
 
     public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
         base.OnStateEnter(animator, stateInfo, layerIndex);
 
-        this.animationControl = animator.GetComponent<AnimationTape>();
+        this.passengerAnimator = animator.GetComponent<PassengerAnimator>();
         this.stateTime = stateInfo.length;
         this.triggered = false;
+        this.canceled = false;
         this.duration = 0;
     }
 
     public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-        base.OnStateExit(animator, stateInfo, layerIndex);
+        base.OnStateUpdate(animator, stateInfo, layerIndex);
 
         duration += Time.deltaTime;
 
         if (!triggered && duration >= stateTime * triggerAfter) {
-            OnFinish(this);
+            OnTriggerEvent?.Invoke();
             triggered = true;
         }
-        else if (duration >= stateTime * CANCEL_AFTER_PERCENT) animationControl.Activate(ParameterName, false);
+        else if (!canceled && duration >= stateTime * CANCEL_AFTER_PERCENT) {
+            passengerAnimator.Activate(ParameterName, false);
+            canceled = true;
+        }
     }
+
+    /// <summary>
+    /// Subscribe to the trigger event.
+    /// </summary>
+    /// <param name="ev">A method to invoke when the event occurs</param>
+    public void Subscribe(OnTrigger ev) { OnTriggerEvent += ev; }
+
+    /// <summary>
+    /// Unubscribe from the trigger event.
+    /// </summary>
+    /// <param name="ev">The method to remove from the event</param>
+    public void Unsubscribe(OnTrigger ev) { OnTriggerEvent -= ev; }
 }

@@ -3715,6 +3715,8 @@ GameObject:
   - component: {fileID: 6879344326082987306}
   - component: {fileID: 2298348037636159630}
   - component: {fileID: 2066563078290813484}
+  - component: {fileID: 340591538}
+  - component: {fileID: 340591539}
   m_Layer: 10
   m_Name: Elevator
   m_TagString: Untagged
@@ -3780,6 +3782,42 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 3.0356483, y: 3.5783257, z: 3.1276093}
   m_Center: {x: 0.0008068085, y: 0.14293027, z: 0.022153854}
+--- !u!114 &340591538
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6879344326082987301}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 14f749d34e437114b8f7b6dd8759324e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  states: []
+--- !u!114 &340591539
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6879344326082987301}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5365e83f67566ad4388aca429386cf27, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tunes:
+  - Name: open
+    Clip: {fileID: 8300000, guid: addede1c69c138c468a98ef6daece812, type: 3}
+    Volume: 1
+    Pitch: 1
+    Delay: 0
+  - Name: close
+    Clip: {fileID: 8300000, guid: 590b6b81675f70a44a48b50e0b984c62, type: 3}
+    Volume: 1
+    Pitch: 1
+    Delay: 0
 --- !u!1 &6879344326091019094
 GameObject:
   m_ObjectHideFlags: 0

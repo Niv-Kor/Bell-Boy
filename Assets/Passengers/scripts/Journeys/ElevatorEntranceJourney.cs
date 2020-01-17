@@ -4,7 +4,7 @@ using UnityEngine;
 public class ElevatorEntranceJourney : Journey
 {
     private ElevatorID elevatorID;
-    private bool lookAtElevator;
+    private MobileElevator selectedElevator;
 
     public ElevatorEntranceJourney(Passenger passenger, Floor floor, float walkSpeed) :
     base(passenger, floor, walkSpeed) {
@@ -14,6 +14,10 @@ public class ElevatorEntranceJourney : Journey
 
     protected override void Travel(bool finishMovement, bool finishRotation) {
         if (finishMovement && finishRotation) ContinuePath();
+
+        //don't look at the elevator's doors if they are closing and about to change location
+        if (lookAtElevator && (selectedElevator.IsClosing || !selectedElevator.IsOpen))
+            ContinuePath();
     }
 
     protected override bool Move() {
@@ -29,7 +33,7 @@ public class ElevatorEntranceJourney : Journey
 
     protected override Queue<Vector3> GeneratePath() {
         Queue<Vector3> path = new Queue<Vector3>();
-        MobileElevator selectedElevator = passenger.TargetElevatorBuffer;
+        selectedElevator = passenger.TargetElevatorBuffer;
         Vector3 elevPos = selectedElevator.transform.position;
         Vector3 elevVolume = selectedElevator.Volume;
         elevatorID = selectedElevator.ID;

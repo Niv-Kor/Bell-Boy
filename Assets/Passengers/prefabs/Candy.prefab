@@ -1729,9 +1729,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   walkSpeed: 1.5
   RunSpeedMultiplier: 2
-  Patience: 40
+  Patience: 4000
   targetMarkSymbol: 0
-  ID: 0
   blowKissPulse: 3
   heartParticles: {fileID: 6216812749802882012, guid: 8b0f4d720d55a5c4c860da586cd882c0,
     type: 3}
@@ -1748,16 +1747,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tunes:
-  - name: special
-    clip: {fileID: 8300000, guid: ce99f55212cd5834abe0c1ce29a76b55, type: 3}
-    volume: 0.5
-    pitch: 1
-    delay: 1.15
-  - name: whisle
-    clip: {fileID: 8300000, guid: 6f5e7beebf7f48440b5b0766dcae73b0, type: 3}
-    volume: 0.5
-    pitch: 1
-    delay: 0
+  - Name: special
+    Clip: {fileID: 8300000, guid: ce99f55212cd5834abe0c1ce29a76b55, type: 3}
+    Volume: 1
+    Pitch: 1
+    Delay: 1.15
+  - Name: whisle
+    Clip: {fileID: 8300000, guid: 6f5e7beebf7f48440b5b0766dcae73b0, type: 3}
+    Volume: 0.6
+    Pitch: 1
+    Delay: 0
+  - Name: crash
+    Clip: {fileID: 8300000, guid: 77afad589dc884c41972076f49644bf9, type: 3}
+    Volume: 1
+    Pitch: 2.5
+    Delay: 0
 --- !u!114 &5421972929474277194
 MonoBehaviour:
   m_ObjectHideFlags: 0

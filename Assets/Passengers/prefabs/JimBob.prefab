@@ -1616,7 +1616,6 @@ MonoBehaviour:
   RunSpeedMultiplier: 2
   Patience: 30
   targetMarkSymbol: 1
-  ID: 0
 --- !u!114 &6815548361331731703
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1629,7 +1628,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5365e83f67566ad4388aca429386cf27, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tunes: []
+  tunes:
+  - Name: crash
+    Clip: {fileID: 8300000, guid: 77afad589dc884c41972076f49644bf9, type: 3}
+    Volume: 1
+    Pitch: 2.5
+    Delay: 0
 --- !u!114 &4682166069366437476
 MonoBehaviour:
   m_ObjectHideFlags: 0

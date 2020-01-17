@@ -106,6 +106,8 @@ public class StationaryElevator : MonoBehaviour
     /// This method is safe to use no matter the current state of the doors.
     /// </summary>
     public virtual void Open() {
+        if (IsOpen || IsOpening) return;
+
         IsClosing = false;
         IsOpening = true;
         finishMovement = false;
@@ -118,6 +120,8 @@ public class StationaryElevator : MonoBehaviour
     /// </summary>
     /// <returns>True if the elevator can be closed.</returns>
     public virtual bool Close() {
+        if (IsClosing || !IsOpen) return false;
+
         IsOpening = false;
         IsClosing = true;
         IsOpen = false;

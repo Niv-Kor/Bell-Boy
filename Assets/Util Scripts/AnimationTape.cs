@@ -17,8 +17,7 @@ public class AnimationTape : StateMachine
         this.Triggers = new Dictionary<string, TriggerState>();
         
         //wrap all trigger behaviours in a dictionary
-        TriggerState[] triggerStates = animator.GetBehaviours<TriggerState>();
-        foreach (TriggerState state in triggerStates)
+        foreach (TriggerState state in animator.GetBehaviours<TriggerState>())
             Triggers.Add(state.ParameterName, state);
     }
 

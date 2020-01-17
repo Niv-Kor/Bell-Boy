@@ -18,12 +18,7 @@ public abstract class Passenger : MonoBehaviour
     [Header("Transportation")]
 
     [Tooltip("The type of mark to show above the passenger.")]
-    [SerializeField] protected TargetMarkSymbol targetMarkSymbol;
-
-    [Header("Debug")]
-
-    [Tooltip("The passenger's unique ID.")]
-    [SerializeField] public int ID;
+    [SerializeField] public TargetMarkSymbol targetMarkSymbol;
 
     protected static readonly float DISPOSE_TIME = 90;
 
@@ -51,7 +46,7 @@ public abstract class Passenger : MonoBehaviour
         set {
             targetFloorNum = value;
 
-            if (targetMarkSymbol == TargetMarkSymbol.Numeral)
+            if (TargetMarkSymbol == TargetMarkSymbol.Numeral)
                 TargetMark.SetFloorNumber(value[0]);
         }
     }
@@ -81,13 +76,22 @@ public abstract class Passenger : MonoBehaviour
 
     public ElevatorDirection ApparentDirection {
         get {
-            if (targetMarkSymbol == TargetMarkSymbol.Numeral) return RealDirection;
+            if (TargetMarkSymbol == TargetMarkSymbol.Numeral) return RealDirection;
             else return ElevatorDirection.Both;
         }
     }
 
+    public TargetMarkSymbol TargetMarkSymbol {
+        get { return targetMarkSymbol; }
+        set {
+            targetMarkSymbol = value;
+
+            if (value != TargetMarkSymbol.Numeral) TargetMark.SetSymbol(value);
+            else TargetMark.SetFloorNumber(TargetFloorNum[0]);
+        }
+    }
+
     protected virtual void Awake() {
-        this.ID = Random.Range(0, int.MaxValue);
         this.journeys = new Queue<JourneyData>();
         this.currentJourney = new JourneyData(null, JourneyPath.Blank);
         this.TargetMark = GetComponentInChildren<TargetMark>();
@@ -107,7 +111,7 @@ public abstract class Passenger : MonoBehaviour
 
         //set target floors and mark
         this.TargetFloorNum = new List<int>(GenerateTargetFloor());
-        if (targetMarkSymbol != TargetMarkSymbol.Numeral) TargetMark.SetSymbol(targetMarkSymbol);
+        this.TargetMarkSymbol = targetMarkSymbol;
     }
 
     protected virtual void Update() {

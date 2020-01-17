@@ -607,6 +607,26 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 8dbc7d758eca7a346bc7c193a116a2a0, type: 2}
+    - target: {fileID: 3631976621008596592, guid: 31ab1dc80f844b144b5a2d152c65f427,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6879344324794721859, guid: 31ab1dc80f844b144b5a2d152c65f427,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6879344325589786923, guid: 31ab1dc80f844b144b5a2d152c65f427,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6879344325739760143, guid: 31ab1dc80f844b144b5a2d152c65f427,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6879344326082987301, guid: 31ab1dc80f844b144b5a2d152c65f427,
         type: 3}
       propertyPath: m_Name
@@ -615,7 +635,7 @@ PrefabInstance:
     - target: {fileID: 6879344326082987306, guid: 31ab1dc80f844b144b5a2d152c65f427,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 27.56
+      value: 27.8
       objectReference: {fileID: 0}
     - target: {fileID: 6879344326082987306, guid: 31ab1dc80f844b144b5a2d152c65f427,
         type: 3}
@@ -1807,7 +1827,7 @@ MonoBehaviour:
     type: 3}
   lobbyPrefab: {fileID: 1991605189882833253, guid: c80227837e9241f48a2b741cdfbb2adc,
     type: 3}
-  blocksAmount: 7
+  blocksAmount: 2
   buildingPosition: {x: 25.02, y: 0, z: 18.24}
   buildingRotation: {x: 0, y: 0, z: 0}
 --- !u!4 &1355972290
@@ -3056,7 +3076,7 @@ PrefabInstance:
     - target: {fileID: 6879344326082987306, guid: 31ab1dc80f844b144b5a2d152c65f427,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 22.48
+      value: 22.72
       objectReference: {fileID: 0}
     - target: {fileID: 6879344326082987306, guid: 31ab1dc80f844b144b5a2d152c65f427,
         type: 3}

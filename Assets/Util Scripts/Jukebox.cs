@@ -22,6 +22,6 @@ public class Jukebox : MonoBehaviour
     /// <param name="name">The name of the tune</param>
     /// <returns>The correct tune, or null if it doesn't exist.</returns>
     public Tune Get(string name) {
-        return Array.Find(tunes, tune => tune.name == name);
+        return Array.Find(tunes, tune => tune.Name == name);
     }
 }

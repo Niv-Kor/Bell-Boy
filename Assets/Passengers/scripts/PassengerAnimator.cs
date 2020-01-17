@@ -21,6 +21,11 @@ public class PassengerAnimator : MonoBehaviour
         this.SoundMixer = GetComponent<SoundMixer>();
     }
 
+    public void Activate(string state, bool flag) {
+        AnimationTape.Activate(state, flag);
+        SoundMixer.Activate(state, flag);
+    }
+
     public void Activate(AnimationState state, bool flag) {
         AnimationTape.Activate(state.animationParam, flag);
         SoundMixer.Activate(state.tuneName, flag);

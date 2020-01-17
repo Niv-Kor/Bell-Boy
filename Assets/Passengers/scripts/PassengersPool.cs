@@ -21,6 +21,8 @@ public class PassengersPool : MonoBehaviour, IPoolable<GameObject>
     [Tooltip("A list of all spawnable passengers.")]
     [SerializeField] private List<PassengerData> passengers;
 
+    private static readonly Vector3 INITIAL_POSITION = Vector3.zero;
+
     private IDictionary<Persona, List<GameObject>> freePassengers, occupiedPassengers;
     private List<Persona> availablePersonas;
 
@@ -139,9 +141,8 @@ public class PassengersPool : MonoBehaviour, IPoolable<GameObject>
         //add the object back to the free chache
         if (found) {
             obj.GetComponent<Passenger>().Reset();
-            obj.transform.position = Vector3.zero;
+            obj.transform.position = INITIAL_POSITION;
             freePassengers[foundPersona].Add(obj);
-            obj.SetActive(false);
         }
     }
 }

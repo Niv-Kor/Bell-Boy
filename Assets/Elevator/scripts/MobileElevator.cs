@@ -21,6 +21,7 @@ public class MobileElevator : StationaryElevator
 
     private List<ElevatorTask> tasksQueue;
     private Stack<int> pendingTasks;
+    private SoundMixer soundMixer;
     private HashSet<Passenger> passengers, leavingPassengers;
     private bool countingPassengers;
 
@@ -49,6 +50,7 @@ public class MobileElevator : StationaryElevator
     protected override void Start() {
         base.Start();
 
+        this.soundMixer = GetComponent<SoundMixer>();
         this.Container = GetComponent<BoxCollider>();
         this.passengers = new HashSet<Passenger>();
         this.leavingPassengers = new HashSet<Passenger>();
@@ -381,12 +383,14 @@ public class MobileElevator : StationaryElevator
     }
 
     protected override void OnOpening() {
+        soundMixer.Activate("open");
         Floor currentFloorComponent = FloorBuilder.Instance.Floors[CurrentFloorNum];
         ElevatorButton button = currentFloorComponent.ElevatorButton;
         button.Switch(false);
     }
 
     protected override void OnClosing() {
+        soundMixer.Activate("close");
         TakePassengersRequests();
     }
 
