@@ -120,6 +120,83 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &48792873
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 48792877}
+  - component: {fileID: 48792876}
+  - component: {fileID: 48792875}
+  - component: {fileID: 48792874}
+  m_Layer: 0
+  m_Name: BGM
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &48792874
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 48792873}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 14f749d34e437114b8f7b6dd8759324e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &48792875
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 48792873}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5365e83f67566ad4388aca429386cf27, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tunes:
+  - Name: this is your time
+    Clip: {fileID: 8300000, guid: cd13b39ced5bee34bbb983ae3f53ee08, type: 3}
+    Volume: 0.6
+    Pitch: 1
+    Delay: 0
+--- !u!114 &48792876
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 48792873}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c9586e39612a814488f57bd480ad0df2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  songTitle: this is your time
+  playOnAwake: 1
+--- !u!4 &48792877
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 48792873}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 28.843456, y: 18.028767, z: 31.32262}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 11
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &49865624 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4628685173995096, guid: 098da5fa05390db479cdcada86a8a67e,
@@ -1803,7 +1880,7 @@ GameObject:
   - component: {fileID: 1355972291}
   - component: {fileID: 1355972292}
   m_Layer: 0
-  m_Name: Floor Builder
+  m_Name: Storey Builder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1818,7 +1895,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1355972288}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 66c25feb74db5df4298d39d728558a55, type: 3}
+  m_Script: {fileID: 11500000, guid: e4b1dc8385e730043a6d7ce5f690bb8f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   roofPrefab: {fileID: 5820614634451376661, guid: fd01fddf3c5dabb47b1eae4a7117017c,
@@ -1827,7 +1904,7 @@ MonoBehaviour:
     type: 3}
   lobbyPrefab: {fileID: 1991605189882833253, guid: c80227837e9241f48a2b741cdfbb2adc,
     type: 3}
-  blocksAmount: 2
+  storeys: 4
   buildingPosition: {x: 25.02, y: 0, z: 18.24}
   buildingRotation: {x: 0, y: 0, z: 0}
 --- !u!4 &1355972290
@@ -2636,16 +2713,16 @@ MonoBehaviour:
   passengers:
   - Prefab: {fileID: 154536, guid: 5cc025988997c42458146feadd7efcca, type: 3}
     Persona: 0
-    SpawnChance: 0.6
+    SpawnChance: 0.35
   - Prefab: {fileID: 155352, guid: d0b5353b71466e8438a0a1881ab779e1, type: 3}
     Persona: 1
-    SpawnChance: 0.15
+    SpawnChance: 0.3
   - Prefab: {fileID: 166286, guid: de129eae18bb1c14d9a8f5b5a863aedc, type: 3}
     Persona: 2
-    SpawnChance: 0.1
+    SpawnChance: 0.15
   - Prefab: {fileID: 128358, guid: 927a69c215db3bc4790bdbe5a774ec4c, type: 3}
     Persona: 3
-    SpawnChance: 0.15
+    SpawnChance: 0.2
 --- !u!4 &1781384868 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4628685173995096, guid: 098da5fa05390db479cdcada86a8a67e,

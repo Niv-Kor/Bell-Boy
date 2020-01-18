@@ -11,7 +11,7 @@ public class AnimationTape : StateMachine
     public bool IsIdle { get; protected set; }
     public IDictionary<string, TriggerState> Triggers { get; set; }
 
-    protected virtual void Awake() {
+    protected override void Awake() {
         this.animator = GetComponent<Animator>();
         this.IsIdle = true;
         this.Triggers = new Dictionary<string, TriggerState>();
@@ -19,6 +19,8 @@ public class AnimationTape : StateMachine
         //wrap all trigger behaviours in a dictionary
         foreach (TriggerState state in animator.GetBehaviours<TriggerState>())
             Triggers.Add(state.ParameterName, state);
+
+        base.Awake();
     }
 
     public override void Activate(string state, bool flag) {
@@ -48,5 +50,14 @@ public class AnimationTape : StateMachine
         animator.SetTrigger(ABORT_PARAM);
         animator.ResetTrigger(ABORT_PARAM);
         Idlize();
+    }
+
+    protected override List<string> RetrieveStates() {
+        List<string> statesList = new List<string>();
+
+        foreach (var parameter in animator.parameters)
+            statesList.Add(parameter.name);
+
+        return statesList;
     }
 }

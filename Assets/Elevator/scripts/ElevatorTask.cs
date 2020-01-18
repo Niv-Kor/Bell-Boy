@@ -69,7 +69,7 @@ public class ElevatorTask
         else if (!IsWaiting()) {
             timeLerped += Time.deltaTime;
             transform.position = Vector3.Lerp(startingPosition, Destination, timeLerped / totalTransportTime);
-            elevator.CurrentFloorNum = FloorBuilder.Instance.GetFloorNumberByHeight(transform.position.y);
+            elevator.CurrentFloorNum = StoreyBuilder.Instance.GetFloorNumberByHeight(transform.position.y);
 
             //check if reached target floor
             if (VectorSensitivity.EffectivelyReached(transform.position, Destination, REACH_TOLERANCE)) {

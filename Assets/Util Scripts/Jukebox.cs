@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Jukebox : MonoBehaviour
@@ -23,5 +24,15 @@ public class Jukebox : MonoBehaviour
     /// <returns>The correct tune, or null if it doesn't exist.</returns>
     public Tune Get(string name) {
         return Array.Find(tunes, tune => tune.Name == name);
+    }
+
+    /// <returns>A list of the tunes' names.</returns>
+    public List<string> GetAllNames() {
+        List<string> names = new List<string>();
+
+        foreach (Tune tune in tunes)
+            names.Add(tune.Name);
+
+        return names;
     }
 }

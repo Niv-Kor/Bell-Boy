@@ -42,7 +42,7 @@ public class ElevatorSelectionArrow : MonoBehaviour
         this.fire = false;
 
         //trigger elevator call event
-        floor.ElevatorButton.OnElevatorCall += ElevatorButton_OnElevatorCall;
+        floor.ElevatorButton.SubscribeCall(ElevatorButton_OnElevatorCall);
     }
 
     private void Update() {
@@ -157,5 +157,5 @@ public class ElevatorSelectionArrow : MonoBehaviour
         fire = true;
     }
 
-    private void ElevatorButton_OnElevatorCall(ElevatorButton button) { Activate(true); }
+    private void ElevatorButton_OnElevatorCall() { Activate(true); }
 }

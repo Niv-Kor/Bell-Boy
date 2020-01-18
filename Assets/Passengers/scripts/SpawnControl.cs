@@ -48,7 +48,7 @@ public class SpawnControl : Singleton<SpawnControl>
     /// Spawn a random passenger in one of the floors.
     /// </summary>
     public void Spawn() {
-        Floor floor = FloorBuilder.Instance.GetRandomFloor(false, false);
+        Floor floor = StoreyBuilder.Instance.GetRandomFloor(false, false);
         if (!floor.IsAtFullCapacity()) Spawn(pool.Lease(), floor);
     }
 
@@ -65,7 +65,7 @@ public class SpawnControl : Singleton<SpawnControl>
     /// </summary>
     /// <param name="passenger">The passenger prefab to spawn</param>
     public void Spawn(Persona persona) {
-        Floor floor = FloorBuilder.Instance.GetRandomFloor(false, false);
+        Floor floor = StoreyBuilder.Instance.GetRandomFloor(false, false);
         if (!floor.IsAtFullCapacity()) Spawn(persona, floor);
     }
 

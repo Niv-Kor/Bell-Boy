@@ -102,7 +102,7 @@ public class Candy : Passenger
         int floor = StartingFloorNum;
 
         while (floor == StartingFloorNum)
-            floor = FloorBuilder.Instance.GetRandomFloorNumber(true, false);
+            floor = StoreyBuilder.Instance.GetRandomFloorNumber(true, false);
 
         return new int[] { floor };
     }

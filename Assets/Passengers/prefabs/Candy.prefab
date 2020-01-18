@@ -1729,7 +1729,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   walkSpeed: 1.5
   RunSpeedMultiplier: 2
-  Patience: 4000
+  Patience: 40
   targetMarkSymbol: 0
   blowKissPulse: 3
   heartParticles: {fileID: 6216812749802882012, guid: 8b0f4d720d55a5c4c860da586cd882c0,

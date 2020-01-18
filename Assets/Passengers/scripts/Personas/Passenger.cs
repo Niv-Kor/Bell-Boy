@@ -32,9 +32,9 @@ public abstract class Passenger : MonoBehaviour
     private List<int> targetFloorNum;
 
     public Queue<Vector3> LeasedPath { get; set; }
-    public Floor StartingFloor { get { return FloorBuilder.Instance.Floors[StartingFloorNum]; } }
-    public Floor CurrentFloor { get { return FloorBuilder.Instance.Floors[CurrentFloorNum]; } }
-    public Floor TargetFloor { get { return FloorBuilder.Instance.Floors[TargetFloorNum[0]]; } }
+    public Floor StartingFloor { get { return StoreyBuilder.Instance.Storeys[StartingFloorNum]; } }
+    public Floor CurrentFloor { get { return StoreyBuilder.Instance.Storeys[CurrentFloorNum]; } }
+    public Floor TargetFloor { get { return StoreyBuilder.Instance.Storeys[TargetFloorNum[0]]; } }
     public TargetMark TargetMark { get; private set; }
     public MobileElevator TargetElevatorBuffer { get; set; }
     public int CurrentFloorNum { get; set; }

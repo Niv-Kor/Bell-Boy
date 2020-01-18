@@ -1,8 +1,16 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 public abstract class StateMachine : MonoBehaviour
 {
-    [SerializeField] protected string[] states;
+    protected List<string> states;
+
+    protected virtual void Awake() {
+        this.states = RetrieveStates();
+    }
+
+    /// <returns>A list of the available states in the machine.</returns>
+    protected abstract List<string> RetrieveStates();
 
     /// <summary>
     /// Activate or deactivate a state.

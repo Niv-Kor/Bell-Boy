@@ -11,10 +11,11 @@ public class ElevatorButton : MonoBehaviour
     [Tooltip("The button frame objet.")]
     [SerializeField] private GameObject buttonFrame;
 
+    public delegate void OnElevatorCall();
+    private event OnElevatorCall OnCall;
     private MeshRenderer buttonRender;
     private SoundMixer soundMixer;
 
-    public event System.Action<ElevatorButton> OnElevatorCall = delegate {};
     public bool IsOn { get; private set; }
 
     private void Start() {
@@ -38,7 +39,19 @@ public class ElevatorButton : MonoBehaviour
     /// </summary>
     public void Call() {
         Switch(true);
-        OnElevatorCall(this);
+        OnCall?.Invoke();
         soundMixer.Activate("click");
     }
+
+    /// <summary>
+    /// Subscribe to the elevator call event.
+    /// </summary>
+    /// <param name="ev">A method to invoke when the event occurs</param>
+    public void SubscribeCall(OnElevatorCall ev) { OnCall += ev; }
+
+    /// <summary>
+    /// Unubscribe from the elevator call event.
+    /// </summary>
+    /// <param name="ev">The method to remove from the event</param>
+    public void UnsubscribeCall(OnElevatorCall ev) { OnCall -= ev; }
 }

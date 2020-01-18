@@ -100,7 +100,7 @@ public class MobileElevator : StationaryElevator
     public bool SendToFloor(int floorNum) {
         if (IsTask(floorNum)) return false;
 
-        Floor[] floors = FloorBuilder.Instance.Floors;
+        Floor[] floors = StoreyBuilder.Instance.Storeys;
         if (floorNum < 0 || floorNum > floors.Length) return false;
 
         //calculate task parameters
@@ -126,7 +126,7 @@ public class MobileElevator : StationaryElevator
     /// <param name="floorNum">The number of the floor</param>
     /// <returns>The elevator entrance at the specified floor.</returns>
     private StationaryElevator GetEntrance(int floorNum) {
-        Floor floor = FloorBuilder.Instance.Floors[floorNum];
+        Floor floor = StoreyBuilder.Instance.Storeys[floorNum];
         return floor.GetEntrance(ID);
     }
 
@@ -253,7 +253,7 @@ public class MobileElevator : StationaryElevator
     /// </summary>
     private void RemovePassengers() {
         Queue<Passenger> removedPassengers = new Queue<Passenger>();
-        Floor currentFloorComponent = FloorBuilder.Instance.Floors[CurrentFloorNum];
+        Floor currentFloorComponent = StoreyBuilder.Instance.Storeys[CurrentFloorNum];
 
         //find passengers that need to leave the elevator
         foreach (Passenger passenger in passengers)
@@ -285,7 +285,7 @@ public class MobileElevator : StationaryElevator
         //push the passenger's desired buttons
         foreach (int targetFloor in passenger.TargetFloorNum) pendingTasks.Push(targetFloor);
 
-        Floor currentFloorComponent = FloorBuilder.Instance.Floors[CurrentFloorNum];
+        Floor currentFloorComponent = StoreyBuilder.Instance.Storeys[CurrentFloorNum];
         passenger.TargetElevatorBuffer = this;
         passenger.CommitToJourney(JourneyPath.ElevatorEntrance, currentFloorComponent);
         currentFloorComponent.Passengers.Remove(passenger);
@@ -341,7 +341,7 @@ public class MobileElevator : StationaryElevator
     /// while the elevator is not moving.
     /// </summary>
     private void AddBulkTasks(int[] tasks) {
-        int minDistance = FloorBuilder.Instance.Floors.Length;
+        int minDistance = StoreyBuilder.Instance.Storeys.Length;
         int closestFloorIndex = 0;
 
         //find the closest floor
@@ -384,7 +384,7 @@ public class MobileElevator : StationaryElevator
 
     protected override void OnOpening() {
         soundMixer.Activate("open");
-        Floor currentFloorComponent = FloorBuilder.Instance.Floors[CurrentFloorNum];
+        Floor currentFloorComponent = StoreyBuilder.Instance.Storeys[CurrentFloorNum];
         ElevatorButton button = currentFloorComponent.ElevatorButton;
         button.Switch(false);
     }
