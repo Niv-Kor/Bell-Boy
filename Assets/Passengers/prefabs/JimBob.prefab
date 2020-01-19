@@ -1564,13 +1564,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 46abb8a23a247ac408649ba0fc36b746, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  states:
-  - walk
-  - run
-  - jump
-  - fall
-  - crash
-  - press
 --- !u!114 &3579166951909667764
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1615,7 +1608,7 @@ MonoBehaviour:
   walkSpeed: 1.3
   RunSpeedMultiplier: 2
   Patience: 30
-  targetMarkSymbol: 1
+  DefaultTargetMark: 1
 --- !u!114 &6815548361331731703
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1634,6 +1627,7 @@ MonoBehaviour:
     Volume: 1
     Pitch: 2.5
     Delay: 0
+    Loop: 0
 --- !u!114 &4682166069366437476
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1646,7 +1640,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 14f749d34e437114b8f7b6dd8759324e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  states: []
 --- !u!114 &7824848004437603196
 MonoBehaviour:
   m_ObjectHideFlags: 0

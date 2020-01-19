@@ -10,13 +10,16 @@ public class Tune
     [SerializeField] public AudioClip Clip;
 
     [Tooltip("The volume of the sound (0-1).")]
-    [SerializeField] [Range(0f, 1f)] public float Volume = .5f;
+    [SerializeField] public float Volume = .5f;
 
     [Tooltip("The pitch of the sound.")]
     [SerializeField] public float Pitch = 1;
 
     [Tooltip("Delay to add before the sound starts (in seconds).")]
     [SerializeField] public float Delay = 0;
+
+    [Tooltip("True to play the tune in loops.")]
+    [SerializeField] public bool Loop = false;
 
     private AudioSource source;
 

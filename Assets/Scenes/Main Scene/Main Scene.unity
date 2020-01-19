@@ -165,10 +165,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tunes:
   - Name: this is your time
-    Clip: {fileID: 8300000, guid: cd13b39ced5bee34bbb983ae3f53ee08, type: 3}
+    Clip: {fileID: 8300000, guid: 6d04b8fb585250c47b9ced81650beee1, type: 3}
     Volume: 0.6
     Pitch: 1
     Delay: 0
+    Loop: 1
 --- !u!114 &48792876
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1904,7 +1905,7 @@ MonoBehaviour:
     type: 3}
   lobbyPrefab: {fileID: 1991605189882833253, guid: c80227837e9241f48a2b741cdfbb2adc,
     type: 3}
-  storeys: 4
+  storeys: 7
   buildingPosition: {x: 25.02, y: 0, z: 18.24}
   buildingRotation: {x: 0, y: 0, z: 0}
 --- !u!4 &1355972290

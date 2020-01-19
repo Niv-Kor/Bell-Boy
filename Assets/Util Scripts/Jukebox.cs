@@ -16,6 +16,7 @@ public class Jukebox : MonoBehaviour
         //create an audio source component for each tune
         foreach (Tune tune in tunes) {
             AudioSource audioSource = audioParent.AddComponent<AudioSource>();
+            audioSource.loop = tune.Loop;
             tune.SetSource(audioSource);
         }
     }

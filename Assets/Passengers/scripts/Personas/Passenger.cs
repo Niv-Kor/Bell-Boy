@@ -18,7 +18,7 @@ public abstract class Passenger : MonoBehaviour
     [Header("Transportation")]
 
     [Tooltip("The type of mark to show above the passenger.")]
-    [SerializeField] public TargetMarkSymbol targetMarkSymbol;
+    [SerializeField] public TargetMarkSymbol DefaultTargetMark;
 
     protected static readonly float DISPOSE_TIME = 90;
 
@@ -26,6 +26,7 @@ public abstract class Passenger : MonoBehaviour
     protected Queue<JourneyData> journeys;
     protected PassengerAnimator passengerAnimator;
     protected SoundMixer soundMixer;
+    protected TargetMarkSymbol targetMarkSymbol;
     protected int startingFloorNum;
     protected float failedSpawnTimer, disposeTimer;
     protected bool destroyed, failedSpawnAttempt;
@@ -111,7 +112,7 @@ public abstract class Passenger : MonoBehaviour
 
         //set target floors and mark
         this.TargetFloorNum = new List<int>(GenerateTargetFloor());
-        this.TargetMarkSymbol = targetMarkSymbol;
+        this.TargetMarkSymbol = DefaultTargetMark;
     }
 
     protected virtual void Update() {
@@ -226,6 +227,7 @@ public abstract class Passenger : MonoBehaviour
     /// <param name="floor">The Component of the floor at which the journey occurs</param>
     public virtual void CommitToJourney(JourneyPath path, Floor floor) {
         ClearJourneys();
+        passengerAnimator.StrongIdlize();
         AddJourney(path, floor);
     }
 

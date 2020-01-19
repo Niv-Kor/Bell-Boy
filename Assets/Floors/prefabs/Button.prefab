@@ -251,7 +251,7 @@ MonoBehaviour:
   tunes:
   - Name: click
     Clip: {fileID: 8300000, guid: 485f1f3e7df7e794db0b5c49f67a7fde, type: 3}
-    Volume: 0.8
+    Volume: 1
     Pitch: 1.6
     Delay: 0
 --- !u!114 &5597990879133123641
@@ -266,4 +266,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 14f749d34e437114b8f7b6dd8759324e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  states: []

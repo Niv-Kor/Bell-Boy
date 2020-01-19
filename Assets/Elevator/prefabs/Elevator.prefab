@@ -3794,7 +3794,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 14f749d34e437114b8f7b6dd8759324e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  states: []
 --- !u!114 &340591539
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3809,13 +3808,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tunes:
   - Name: open
-    Clip: {fileID: 8300000, guid: addede1c69c138c468a98ef6daece812, type: 3}
-    Volume: 1
+    Clip: {fileID: 8300000, guid: 231d499e396446c49a71249a1f9bf623, type: 3}
+    Volume: 100
     Pitch: 1
     Delay: 0
   - Name: close
     Clip: {fileID: 8300000, guid: 590b6b81675f70a44a48b50e0b984c62, type: 3}
-    Volume: 1
+    Volume: 100
     Pitch: 1
     Delay: 0
 --- !u!1 &6879344326091019094

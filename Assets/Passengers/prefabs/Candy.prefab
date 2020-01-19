@@ -1678,14 +1678,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 46abb8a23a247ac408649ba0fc36b746, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  states:
-  - walk
-  - run
-  - jump
-  - fall
-  - crash
-  - press
-  - special
 --- !u!114 &1154219262799561020
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1749,12 +1741,12 @@ MonoBehaviour:
   tunes:
   - Name: special
     Clip: {fileID: 8300000, guid: ce99f55212cd5834abe0c1ce29a76b55, type: 3}
-    Volume: 1
+    Volume: 1.5
     Pitch: 1
     Delay: 1.15
   - Name: whisle
     Clip: {fileID: 8300000, guid: 6f5e7beebf7f48440b5b0766dcae73b0, type: 3}
-    Volume: 0.6
+    Volume: 0.8
     Pitch: 1
     Delay: 0
   - Name: crash
@@ -1774,7 +1766,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 14f749d34e437114b8f7b6dd8759324e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  states: []
 --- !u!114 &5471419388683264256
 MonoBehaviour:
   m_ObjectHideFlags: 0
