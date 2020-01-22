@@ -12,7 +12,7 @@ public class ElevatorSelectionArrow : MonoBehaviour
     [Tooltip("The distance from the arrow's maximum height to the arrow's minimum height.")]
     [SerializeField] private float verticalAxis;
 
-    private static readonly Color TRANSPARENT = new Color(0, 0, 0, 0);
+    private static readonly Color TRANSPARENT = new Color(0xFF, 0xFF, 0xFF, 0);
     private static readonly float BOUNCE_TOLERANCE = 10;
     private static readonly float FIRE_TOLERANCE = 1;
 

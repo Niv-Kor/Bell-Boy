@@ -8,7 +8,7 @@ public class SpawnControl : Singleton<SpawnControl>
     [SerializeField] public float FloorSpawnRate;
 
     [Tooltip("Amount of time (in seconds) until the next spawn of a pedestrian.")]
-    [SerializeField] public float PedestianSpawnRate;
+    [SerializeField] public float PedestrianSpawnRate;
 
     [Header("Debug")]
 
@@ -26,7 +26,7 @@ public class SpawnControl : Singleton<SpawnControl>
         this.humansParent = new GameObject(HUMANS_PARENT_NAME);
         humansParent.transform.SetParent(transform);
         this.floorSpawnTimer = FloorSpawnRate;
-        this.pedestrianSpawnTimer = PedestianSpawnRate;
+        this.pedestrianSpawnTimer = PedestrianSpawnRate;
     }
 
     private void Update() {
@@ -35,7 +35,7 @@ public class SpawnControl : Singleton<SpawnControl>
             Spawn();
         }
 
-        if (enablePedestrians && pedestrianSpawnTimer >= PedestianSpawnRate) {
+        if (enablePedestrians && pedestrianSpawnTimer >= PedestrianSpawnRate) {
             pedestrianSpawnTimer = 0;
             SpawnPedestrian();
         }

@@ -88,7 +88,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 4b931516b8f0e124b96d62a9a138daec, type: 2}
+  - {fileID: 2100000, guid: 06d5dbe3bf501d5498cdad32efadc6f7, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -727,7 +727,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 4b931516b8f0e124b96d62a9a138daec, type: 2}
+  - {fileID: 2100000, guid: 06d5dbe3bf501d5498cdad32efadc6f7, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1135,7 +1135,7 @@ SkinnedMeshRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: 4b931516b8f0e124b96d62a9a138daec, type: 2}
-  - {fileID: 2100000, guid: 4b931516b8f0e124b96d62a9a138daec, type: 2}
+  - {fileID: 2100000, guid: 06d5dbe3bf501d5498cdad32efadc6f7, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1309,7 +1309,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 4b931516b8f0e124b96d62a9a138daec, type: 2}
+  - {fileID: 2100000, guid: 06d5dbe3bf501d5498cdad32efadc6f7, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1479,7 +1479,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 4b931516b8f0e124b96d62a9a138daec, type: 2}
+  - {fileID: 2100000, guid: 06d5dbe3bf501d5498cdad32efadc6f7, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1749,7 +1749,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 2a9c0d4b5b80699428ae121187ce4299, type: 2}
+  - {fileID: 2100000, guid: 06d5dbe3bf501d5498cdad32efadc6f7, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2280,7 +2280,7 @@ GameObject:
   - component: {fileID: 5143319117822629695}
   - component: {fileID: 4868044319245183241}
   m_Layer: 8
-  m_Name: Paul
+  m_Name: Paul Statue
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

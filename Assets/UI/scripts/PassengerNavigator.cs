@@ -59,7 +59,16 @@ public class PassengerNavigator : MonoBehaviour
     /// Executed when the mouse is released.
     /// </summary>
     private void OnMouseRelease() {
-        if (selectedElevator != null) selectedElevator.ReceivePassenger(passenger);
+        if (selectedElevator != null) {
+            bool sameDirection = DirectionCalculator.Equals(selectedElevator.Direction, passenger.ApparentDirection);
+
+            //elevator is legal
+            if (sameDirection) selectedElevator.ReceivePassenger(passenger);
+            else { //elevator is illegal - pop up a sign
+                NoEntry noEntrySign = selectedElevator.Entrance.GetComponentInChildren<NoEntry>();
+                noEntrySign.ForbidEntry(passenger.ApparentDirection);
+            }
+        }
         CancelAllImpact();
     }
 
@@ -131,22 +140,14 @@ public class PassengerNavigator : MonoBehaviour
     /// <returns>True if the mouse is pointing at an available elevator in the current floor.</returns>
     private MobileElevator MouseOnElevator(Vector3 mousePos) {
         List<MobileElevator> elevators = ElevatorsManager.GetAllElevators();
-        List<MobileElevator> targetElevators = new List<MobileElevator>();
-        ElevatorDirection passengerDirection = passenger.ApparentDirection;
 
         foreach (MobileElevator elevator in elevators) {
+            mousePos.z = elevator.transform.position.z;
+            bool mouseArea = elevator.Container.bounds.Contains(mousePos);
             bool sameFloor = elevator.CurrentFloorNum == passenger.CurrentFloorNum;
             bool elevatorOpen = elevator.IsOpen || elevator.IsOpening;
-            bool sameDirection = DirectionCalculator.Equals(elevator.Direction, passengerDirection);
 
-            if (sameFloor && elevatorOpen && sameDirection) {
-                targetElevators.Add(elevator);
-            }
-        }
-
-        foreach (MobileElevator elevator in targetElevators) {
-            mousePos.z = elevator.transform.position.z;
-            if (elevator.Container.bounds.Contains(mousePos)) return elevator;
+            if (mouseArea && sameFloor && elevatorOpen) return elevator;
         }
 
         return null;

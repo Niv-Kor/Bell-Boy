@@ -80,14 +80,14 @@ public class WindowJumpJourney : Journey
         Vector3 jumpPoint = window.transform.position;
         jumpPoint.x -= DISTANCE_TO_JUMP * throwVector.x;
         jumpPoint.y = passengerPos.y;
-        jumpPoint.z = z;
+        jumpPoint.z = hallCenter.z;
         path.Enqueue(jumpPoint);
 
         //point of fall
         fallPoint = window.transform.position;
         fallPoint.x += DISTANCE_TO_FALL * throwVector.x;
         fallPoint.y = passengerPos.y;
-        fallPoint.z = z;
+        fallPoint.z = hallCenter.z;
         path.Enqueue(fallPoint);
 
         //crash point
