@@ -28,4 +28,7 @@ public class SoundMixer : StateMachine
     protected override List<string> RetrieveStates() {
         return jukebox.GetAllNames();
     }
+
+    public override void Idlize() {}
+    public override void StrongIdlize() {}
 }

@@ -26,6 +26,7 @@ public abstract class Passenger : MonoBehaviour
     protected Queue<JourneyData> journeys;
     protected PassengerAnimator passengerAnimator;
     protected SoundMixer soundMixer;
+    protected TipsJar tipsCalculator;
     protected TargetMarkSymbol targetMarkSymbol;
     protected int startingFloorNum;
     protected float failedSpawnTimer, disposeTimer;
@@ -36,6 +37,7 @@ public abstract class Passenger : MonoBehaviour
     public Floor StartingFloor { get { return StoreyBuilder.Instance.Storeys[StartingFloorNum]; } }
     public Floor CurrentFloor { get { return StoreyBuilder.Instance.Storeys[CurrentFloorNum]; } }
     public Floor TargetFloor { get { return StoreyBuilder.Instance.Storeys[TargetFloorNum[0]]; } }
+    public int BaseTipValue { get { return tipsCalculator.PatienceToTipValue(Patience); } }
     public TargetMark TargetMark { get; private set; }
     public MobileElevator TargetElevatorBuffer { get; set; }
     public int CurrentFloorNum { get; set; }
@@ -99,6 +101,7 @@ public abstract class Passenger : MonoBehaviour
         this.soundMixer = GetComponent<SoundMixer>();
         this.passengerAnimator = GetComponent<PassengerAnimator>();
         this.Dimension = GetComponent<BoxCollider>().size;
+        this.tipsCalculator = FindObjectOfType<TipsJar>();
     }
 
     public virtual void Reset() {

@@ -3764,9 +3764,9 @@ MonoBehaviour:
   doorSpeed: 1
   stickOutPercent: 20
   tolerancePercent: 1
-  ID: 1
+  ID: 2
   perFloorTime: 0.7
-  landingHeight: 2.12
+  landingHeight: 1.4
   secondsTillOpen: 0.4
   secondsTillClose: 4
 --- !u!65 &2066563078290813484
@@ -3812,11 +3812,15 @@ MonoBehaviour:
     Volume: 100
     Pitch: 1
     Delay: 0
+    Loop: 0
+    Genre: 0
   - Name: close
     Clip: {fileID: 8300000, guid: 590b6b81675f70a44a48b50e0b984c62, type: 3}
     Volume: 100
     Pitch: 1
     Delay: 0
+    Loop: 0
+    Genre: 0
 --- !u!1 &6879344326091019094
 GameObject:
   m_ObjectHideFlags: 0

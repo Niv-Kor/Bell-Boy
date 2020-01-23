@@ -59,6 +59,11 @@ public class MobileElevator : StationaryElevator
         this.IsMoving = false;
         this.countingPassengers = false;
         this.CurrentFloorNum = 0;
+
+        //poisition at lobby
+        Vector3 initialPos = transform.position;
+        initialPos.y = StoreyBuilder.Instance.Storeys[0].IndoorHeight + landingHeight;
+        transform.position = initialPos;
     }
 
     protected override void Update() {
@@ -106,7 +111,7 @@ public class MobileElevator : StationaryElevator
         //calculate task parameters
         int targetFloor = floorNum;
         Floor destFloor = floors[floorNum];
-        float destHeight = destFloor.FloorHeight + landingHeight;
+        float destHeight = destFloor.IndoorHeight + landingHeight;
         Vector3 currentPos = transform.position;
         Vector3 destination = new Vector3(currentPos.x, destHeight, currentPos.z);
 

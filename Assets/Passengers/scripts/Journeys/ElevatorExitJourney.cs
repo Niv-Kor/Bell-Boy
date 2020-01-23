@@ -4,10 +4,12 @@ using UnityEngine;
 public class ElevatorExitJourney : Journey
 {
     private ElevatorID fromElevator;
+    private TipsJar tipsCalculator;
 
     public ElevatorExitJourney(Passenger passenger, Floor floor, float walkSpeed) :
     base(passenger, floor, walkSpeed) {
         this.fromElevator = default;
+        this.tipsCalculator = Object.FindObjectOfType<TipsJar>();
     }
 
     protected override void Travel(bool finishMovement, bool finishRotation) {
@@ -39,6 +41,8 @@ public class ElevatorExitJourney : Journey
     }
 
     protected override void OnFinish() {
+        tipsCalculator.Tip(passenger.transform.position, passenger.BaseTipValue);
+        Debug.Log(passenger.name + "'s base tip is " + passenger.BaseTipValue);
         passengerAnimator.Idlize();
     }
 

@@ -23,11 +23,11 @@ public class FloorDecorator : Singleton<FloorDecorator>
 
     [Header("Chance")]
 
-    [Tooltip("The chance of placing a decoration at each available spot.")]
-    [SerializeField] [Range(0f, 1f)] private float placementChance = .5f;
+    [Tooltip("The total rate of decorations.")]
+    [SerializeField] [Range(0f, 1f)] private float placementRate = .5f;
 
-    [Tooltip("True for the placement chance to be completely random each time.")]
-    [SerializeField] private bool randomChance = false;
+    [Tooltip("True for the placement rate to be completely random each time.")]
+    [SerializeField] private bool randomRate = false;
 
     [Header("Debug")]
 
@@ -86,8 +86,8 @@ public class FloorDecorator : Singleton<FloorDecorator>
             foreach (Vector3 spot in floorPlan.DecorationSpots) {
                 bool passedChance = false;
 
-                if (randomChance) passedChance = RandomUtils.UnstableCondition();
-                else passedChance = RandomUtils.UnstableCondition(placementChance);
+                if (randomRate) passedChance = RandomUtils.UnstableCondition();
+                else passedChance = RandomUtils.UnstableCondition(placementRate);
 
                 //instantiate a random decoration
                 if (passedChance) {

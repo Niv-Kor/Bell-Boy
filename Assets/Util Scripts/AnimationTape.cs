@@ -4,8 +4,6 @@ using UnityEngine;
 [RequireComponent(typeof(Animator))]
 public class AnimationTape : StateMachine
 {
-    protected static readonly string ABORT_PARAM = "abort";
-
     protected Animator animator;
 
     public bool IsIdle { get; protected set; }
@@ -47,8 +45,7 @@ public class AnimationTape : StateMachine
     }
 
     public override void StrongIdlize() {
-        animator.SetTrigger(ABORT_PARAM);
-        animator.ResetTrigger(ABORT_PARAM);
+        animator.SetTrigger(PassengerAnimator.ABORT_PARAM);
         Idlize();
     }
 

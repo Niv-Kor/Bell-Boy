@@ -16,7 +16,7 @@ public class StoreyBuilder : Singleton<StoreyBuilder>
     [Header("Building Instructions")]
 
     [Tooltip("Amount of storeys to build.")]
-    [SerializeField] private int storeys = 3;
+    [SerializeField] [Range(1, 20)] private int storeys = 3;
 
     [Tooltip("The position of the first floor block.")]
     [SerializeField] private Vector3 buildingPosition;
