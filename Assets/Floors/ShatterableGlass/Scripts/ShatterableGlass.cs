@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class ShatterableGlass : MonoBehaviour
 {
+    private static readonly string SHATTER_SFX = "shatter";
+
     public int Sectors = 3;
     public int DetailsPerSector = 3;
     public float SimplifyThreshold = 0.05f;
@@ -20,7 +22,8 @@ public class ShatterableGlass : MonoBehaviour
     Vector2[] Bounds = new Vector2[4];
     float Area = 1f;
     Material GlassMaterial;
-    AudioSource SoundEmitter;
+    private SoundMixer soundMixer;
+    private bool shattered;
 
     // Using this for initialization
     void Start() {
@@ -37,22 +40,18 @@ public class ShatterableGlass : MonoBehaviour
         Bounds[2] = new Vector2(-u, -v);
         Bounds[3] = new Vector2(u, -v);
 
-        SoundEmitter = GetComponent<AudioSource>();
+        this.soundMixer = GetComponent<SoundMixer>();
+        this.GlassMaterial = GetComponent<Renderer>().material;
 
         // Check if Renderer and MeshFilter present.
-        if (GetComponent<Renderer>() == null || GetComponent<MeshFilter>() == null)
-        {
+        if (GetComponent<Renderer>() == null || GetComponent<MeshFilter>() == null) {
             Debug.LogError(gameObject.name + ": No Renderer and/or MeshFilter components!");
             Destroy(gameObject);
             return;
         }
 
-        // Original glass's material will be applied to glass gibs.
-        GlassMaterial = GetComponent<Renderer>().material;
-
         // Throw an error, if second material required, but not set.
-        if (GlassSides && GlassSidesMaterial == null)
-        {
+        if (GlassSides && GlassSidesMaterial == null) {
             Debug.LogError(gameObject.name + ": GlassSide material must be assigned! Glass will be destroyed.");
             Destroy(gameObject);
         }
@@ -113,8 +112,9 @@ public class ShatterableGlass : MonoBehaviour
     }
 
     // Main function. HitPoint is local glass's coordinates.
-    public void Shatter(Vector2 HitPoint, Vector3 ForceDirrection)
-    {
+    public void Shatter(Vector2 HitPoint, Vector3 ForceDirrection) {
+        if (shattered) return;
+
         // 4 BaseLines for 4 courners. Plus Sectors per side (4 sides). 
         int BaseLinesCount = 4 + (Sectors - 1) * 4;
         BaseLine[] BaseLines = new BaseLine[BaseLinesCount];
@@ -235,33 +235,8 @@ public class ShatterableGlass : MonoBehaviour
 
         }
 
-        // Play sound, if AudioSource component is attached.
-        if (SoundEmitter)
-            SoundEmitter.Play();
-
-        // Remove useless components
-        Destroy(GetComponent<Renderer>());
-        Destroy(GetComponent<MeshFilter>());
-        Destroy(GetComponent<ShatterableGlass>());
-
-        if (ShatterButNotBreak)
-            // Stop access by Gun.
-            gameObject.tag = "Untagged";
-        else
-        {
-            //Stop colliding
-            Destroy(GetComponent<MeshCollider>());
-            // Destroy original glass after sound stops or now, if AudioSource not set.
-            if (SoundEmitter)
-            {
-                if (SoundEmitter.clip)
-                    Destroy(gameObject, SoundEmitter.clip.length);
-                else
-                    Debug.Log(gameObject.name + ": AudioSource component is present, but SoundClip is not set.");
-            }
-            else
-                Destroy(gameObject);
-        }
+        soundMixer.Activate(SHATTER_SFX);
+        shattered = true;
     }
 
     // Figure class. Figure consists of 3(triangle) or 4(trapeze) points.
@@ -281,9 +256,7 @@ public class ShatterableGlass : MonoBehaviour
 
         // Generates BoxCollider for GameObject Obj.
         // Method made for triangles but can be applied to trapeze since it consists of 2 triangles.
-        // Please refer to Figure 2.7.
-        public void GenerateCollider(float GlassThickness, GameObject Obj)
-        {
+        public void GenerateCollider(float GlassThickness, GameObject Obj) {
             BoxCollider Col = Obj.AddComponent<BoxCollider>();
 
             // Sides of triangle. Please refer to figure XX.

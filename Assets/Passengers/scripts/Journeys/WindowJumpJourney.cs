@@ -127,5 +127,9 @@ public class WindowJumpJourney : Journey
         floorplan.Free(passenger.LeasedPath);
     }
 
+    protected override void OnFinish() {
+        ScoreSystem.Instance.Reputation.LoseLife();
+    }
+
     protected override bool LookAtElevatorOnFinish() { return false; }
 }

@@ -42,3 +42,12 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Particles
+    uniqueID: 3159539965
+    locked: 0
+  - name: In Game Tint
+    uniqueID: 603603741
+    locked: 0
+  - name: Floating Window
+    uniqueID: 982911561
+    locked: 0

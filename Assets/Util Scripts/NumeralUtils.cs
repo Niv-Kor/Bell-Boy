@@ -1,6 +1,6 @@
 ﻿public class NumeralUtils
 {
-    public static int CountDigits(int num) {
+    public static int CountDigits(long num) {
         int counter = 0;
 
         while (num > 0) {

@@ -15,10 +15,12 @@ public class ElevatorSelectionArrow : MonoBehaviour
     private static readonly Color TRANSPARENT = new Color(0xFF, 0xFF, 0xFF, 0);
     private static readonly float BOUNCE_TOLERANCE = 10;
     private static readonly float FIRE_TOLERANCE = 1;
+    private static readonly string SWIFT_SFX = "swift";
 
     private Floor floor;
     private ElevatorID ID;
     private SpriteRenderer spriteRenderer;
+    private SoundMixer soundMixer;
     private List<ElevatorSelectionArrow> parallelArrows;
     private Vector3 medianPoint, topBounce, bottomBounce, nextBouncePoint;
     private Color originColor;
@@ -27,6 +29,7 @@ public class ElevatorSelectionArrow : MonoBehaviour
 
     private void Start() {
         this.floor = GetComponentInParent<Floor>();
+        this.soundMixer = GetComponent<SoundMixer>();
         this.ID = GetComponentInParent<StationaryElevator>().ID;
         this.spriteRenderer = GetComponent<SpriteRenderer>();
         this.originColor = spriteRenderer.color;
@@ -153,6 +156,7 @@ public class ElevatorSelectionArrow : MonoBehaviour
     /// Fire the arrow rapidly downwards and disable it.
     /// </summary>
     public void Fire() {
+        soundMixer.Activate(SWIFT_SFX);
         activated = false;
         fire = true;
     }

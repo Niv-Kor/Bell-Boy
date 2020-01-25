@@ -12,6 +12,8 @@ GameObject:
   - component: {fileID: 7448977383890494199}
   - component: {fileID: 290819485608982588}
   - component: {fileID: -7241230038319112825}
+  - component: {fileID: 585456946391068751}
+  - component: {fileID: 6128225925168286038}
   m_Layer: 0
   m_Name: Selection Arrow
   m_TagString: Untagged
@@ -123,3 +125,35 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 2.56, y: 3.26}
   m_EdgeRadius: 0
+--- !u!114 &585456946391068751
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2110564169803727013}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5365e83f67566ad4388aca429386cf27, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tunes:
+  - Name: swift
+    Clip: {fileID: 8300000, guid: 97c5d88946b13c442983745254000eb6, type: 3}
+    Volume: 1
+    Pitch: 4
+    Delay: 0
+    Loop: 0
+    Genre: 0
+--- !u!114 &6128225925168286038
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2110564169803727013}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 14f749d34e437114b8f7b6dd8759324e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

@@ -8,6 +8,9 @@ public class TipsJar : MonoBehaviour
     [Tooltip("The textual value of the timer.")]
     [SerializeField] private TextMeshProUGUI value;
 
+    [Tooltip("The text that indicates tips multiplier.")]
+    [SerializeField] private MultiplierIntensity multiplier;
+
     [Header("Base Values")]
 
     [Tooltip("Minimum base tip value.")]
@@ -27,42 +30,43 @@ public class TipsJar : MonoBehaviour
 
     private TimerRunner timer;
     private CoinsPool coinsPool;
-    private int processingValue, totalValue;
+    private long processingValue, totalValue;
 
-    public int MaxValue {
+    public long MaxValue {
         get {
-            int num = 1;
+            long num = 1;
             for (int i = 0; i < DIGITS; i++) num *= 10;
             return num - 1;
         }
     }
 
-    public int TotalValue {
+    public long TotalValue {
         get { return totalValue; }
         set {
-            int summed = value;
-            int maxVal = MaxValue;
-            if (summed > maxVal) summed = maxVal;
+            long maxVal = MaxValue;
+            if (value > maxVal) value = maxVal;
 
-            totalValue = summed;
+            totalValue = value;
         }
     }
     
     private void Start() {
         this.timer = ScoreSystem.Instance.TimerRunner;
         this.coinsPool = ScoreSystem.Instance.CoinsPool;
+
+        ScoreSystem.Instance.TimerRunner.MinuteNotifierTrigger += UpdateMultiplier;
         Add(0); //init counter
     }
 
     private void Update() {
-        int calculationDifference = TotalValue - processingValue;
+        long calculationDifference = TotalValue - processingValue;
 
         if (Mathf.Abs(calculationDifference) > 0) {
             int differenceDigits = NumeralUtils.CountDigits(calculationDifference);
-            int decimalScale = (int) Mathf.Pow(10, differenceDigits - 1);
+            long decimalScale = (int) Mathf.Pow(10, differenceDigits - 1);
             bool slowDown = calculationDifference <= decimalScale * MAX_SLOW_INCREMENT_PERCENT;
 
-            int additiveStep = decimalScale;
+            long additiveStep = decimalScale;
             additiveStep /= slowDown ? 10 : 1;
             if (additiveStep == 0) additiveStep = 1;
 
@@ -76,7 +80,7 @@ public class TipsJar : MonoBehaviour
     /// <param name="tossFrom">The position from which the coin should be tossed</param>
     /// <param name="baseValue">The base value of the tip</param>
     public void Tip(Vector3 tossFrom, int baseValue) {
-        int calculatedValue = (int) (Mathf.Pow(2, timer.Minutes) * baseValue);
+        long calculatedValue = (timer.Minutes + 1) * baseValue;
         Coin coin = coinsPool.Lease();
         coin.Value = calculatedValue;
         coin.Toss(tossFrom);
@@ -86,9 +90,9 @@ public class TipsJar : MonoBehaviour
     /// Add coins to the tips jar.
     /// </summary>
     /// <param name="val">The amount of coins to add</param>
-    private void Add(int val) {
+    private void Add(long val) {
         string cleanText = value.text.Replace(",", ""); //clear commas
-        int currentValue = int.Parse(cleanText); //retrieve value
+        long currentValue = long.Parse(cleanText); //retrieve value
         processingValue = currentValue + val; //sum values
         string stringVal = processingValue.ToString(); //convert back to string
         int valueDigits = stringVal.Length;
@@ -121,5 +125,13 @@ public class TipsJar : MonoBehaviour
             float percentOfBenefit = 1 - (patience - maximalBenfitSeconds) / (minimalBenfitSeconds - maximalBenfitSeconds);
             return (int) (percentOfBenefit * (maxBaseValue - minBaseValue)) + minBaseValue;
         }
+    }
+
+    /// <summary>
+    /// Update the multiplier text that indicates the multiplication of base tips.
+    /// </summary>
+    /// <param name="minutes">Amount of minutes passed in the game</param>
+    private void UpdateMultiplier(int minutes) {
+        multiplier.Set(minutes + 1);
     }
 }

@@ -10,11 +10,12 @@ public class TriggerState : StateMachineBehaviour
 
     private static readonly float CANCEL_AFTER_PERCENT = .98f;
 
-    public delegate void OnTrigger();
-    private event OnTrigger OnTriggerEvent;
     private bool triggered, canceled;
     private float stateTime, duration;
     private PassengerAnimator passengerAnimator;
+
+    public delegate void OnTrigger();
+    private event OnTrigger OnTriggerEvent;
 
     public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
         base.OnStateEnter(animator, stateInfo, layerIndex);
