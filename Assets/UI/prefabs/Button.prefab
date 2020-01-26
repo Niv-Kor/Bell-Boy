@@ -14,6 +14,9 @@ GameObject:
   - component: {fileID: 7478067308908449266}
   - component: {fileID: 7478067308908419296}
   - component: {fileID: 127396721}
+  - component: {fileID: 8884021847703206643}
+  - component: {fileID: 3779647692224101404}
+  - component: {fileID: 6904075674271867412}
   m_Layer: 5
   m_Name: Button
   m_TagString: Untagged
@@ -149,6 +152,53 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   window: {fileID: 0}
   openOnClick: 0
+  pauseOnClick: 0
+  resumeOnClick: 0
+--- !u!114 &8884021847703206643
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7478067308898560608}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5365e83f67566ad4388aca429386cf27, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tunes:
+  - Name: button_click
+    Clip: {fileID: 8300000, guid: 30d52dbd3b3f8ca4bb3a704b3248a644, type: 3}
+    Volume: 1
+    Pitch: 1
+    Delay: 0
+    Loop: 0
+    Genre: 0
+--- !u!114 &3779647692224101404
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7478067308898560608}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 14f749d34e437114b8f7b6dd8759324e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &6904075674271867412
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7478067308898560608}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7543d936025f22740b2a013a9b025f0c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tuneName: button_click
 --- !u!1 &7478067308898787492
 GameObject:
   m_ObjectHideFlags: 0

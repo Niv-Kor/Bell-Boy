@@ -18,7 +18,6 @@ public class SoundSliderControl : MonoBehaviour
 
     private void Start() {
         this.mixerGroup = AudioAccessor.Instance.GetGenreGroup(Genre);
-        print("for slider " + Genre + " mixer is " + mixerGroup.name);
         Slider slider = GetComponent<Slider>();
         slider.onValueChanged.AddListener(delegate { ChangeVolume(slider.value); });
         slider.value = InitialPercentValue;

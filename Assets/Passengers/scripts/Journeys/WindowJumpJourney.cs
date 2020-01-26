@@ -8,11 +8,13 @@ public class WindowJumpJourney : Journey
     private static readonly float FALL_SPEED = 10;
 
     private GameObject window;
+    private DeathTint deathTint;
     private Vector3 throwVector, fallPoint;
     private bool thrown, fall;
 
     public WindowJumpJourney(Passenger passenger, Floor floor, float walkSpeed) :
     base(passenger, floor, walkSpeed) {
+        this.deathTint = Object.FindObjectOfType<DeathTint>();
         this.thrown = false;
         this.fall = false;
     }
@@ -128,6 +130,7 @@ public class WindowJumpJourney : Journey
     }
 
     protected override void OnFinish() {
+        deathTint.Tint();
         ScoreSystem.Instance.Reputation.LoseLife();
     }
 

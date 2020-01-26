@@ -3809,14 +3809,21 @@ MonoBehaviour:
   tunes:
   - Name: open
     Clip: {fileID: 8300000, guid: 231d499e396446c49a71249a1f9bf623, type: 3}
-    Volume: 100
+    Volume: 1
     Pitch: 1
     Delay: 0
     Loop: 0
     Genre: 0
   - Name: close
     Clip: {fileID: 8300000, guid: 590b6b81675f70a44a48b50e0b984c62, type: 3}
-    Volume: 100
+    Volume: 1
+    Pitch: 1
+    Delay: 0
+    Loop: 0
+    Genre: 0
+  - Name: bell
+    Clip: {fileID: 8300000, guid: 9eb13d37d950eb4469e8db803aa5e766, type: 3}
+    Volume: 1
     Pitch: 1
     Delay: 0
     Loop: 0

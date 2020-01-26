@@ -102,8 +102,8 @@ public class TipsJar : MonoBehaviour
             stringVal = "0" + stringVal;
 
         //add commas
-        for (int i = DIGITS - 1, counter = 0; i >= 0; i--, counter++) {
-            if (counter == 3) {
+        for (int i = DIGITS - 1, counter = 0, sampleNumber = 1; i >= 0; i--, counter++, sampleNumber *= 10) {
+            if (counter == 3 && processingValue >= sampleNumber) {
                 counter = 0;
                 stringVal = stringVal.Insert(i + 1, ",");
             }

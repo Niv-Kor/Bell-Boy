@@ -22,16 +22,19 @@ public class TimerRunner : MonoBehaviour
     private static readonly int WHOLE_ROUND = 60;
     private static readonly int MAX_MINUTES = 99;
     private static readonly int MAX_SECONDS = 59;
-    private static readonly int GEAR_SPIN_ANGLE = -6;
-    private static readonly int PIN_OVERJUMP = -5;
-    private static readonly float FIX_PIN_AFTER = 9f;
+    private static readonly int GEAR_SPIN_ANGLE = -360 / WHOLE_ROUND;
+    private static readonly int PIN_OVERJUMP = GEAR_SPIN_ANGLE;
+    private static readonly int PIN_UNDERJUMP = GEAR_SPIN_ANGLE / 2;
+    private static readonly float FIRST_FIX_PIN_AFTER = 9f;
+    private static readonly float SECOND_FIX_PIN_AFTER = 14f;
     private static readonly string TICK_SFX = "tick";
 
     private SpriteRenderer spriteRender;
     private SoundMixer soundMixer;
     private float score;
-    private bool running, pinStablized, isMaxValue;
     private int prevSeconds, prevMinutes;
+    private bool running, isMaxValue;
+    private bool firstStabilize, pinStablized;
 
     public float Timer { get; set; }
     public int Minutes { get; private set; }
@@ -46,6 +49,7 @@ public class TimerRunner : MonoBehaviour
         this.soundMixer = GetComponent<SoundMixer>();
         this.prevSeconds = Seconds;
         this.prevMinutes = Minutes;
+        this.firstStabilize = false;
         this.pinStablized = true;
         this.isMaxValue = false;
         this.running = false;
@@ -68,9 +72,16 @@ public class TimerRunner : MonoBehaviour
             }
 
             //stablize pin
-            if (!pinStablized && Milliseconds >= FIX_PIN_AFTER) {
-                pinGear.transform.Rotate(0, 0, -PIN_OVERJUMP);
-                pinStablized = true;
+            if (!pinStablized) {
+                if (!firstStabilize && Milliseconds >= FIRST_FIX_PIN_AFTER && Milliseconds < SECOND_FIX_PIN_AFTER) {
+                    pinGear.transform.Rotate(0, 0, -GEAR_SPIN_ANGLE - PIN_OVERJUMP - PIN_UNDERJUMP);
+                    firstStabilize = true;
+                }
+                else if (Milliseconds >= SECOND_FIX_PIN_AFTER) {
+                    if (firstStabilize) pinGear.transform.Rotate(0, 0, GEAR_SPIN_ANGLE + PIN_UNDERJUMP);
+                    else pinGear.transform.Rotate(0, 0, -PIN_OVERJUMP); //bug - Update()'s frequency is too low
+                    pinStablized = true;
+                }
             }
 
             //update sprite
@@ -80,6 +91,7 @@ public class TimerRunner : MonoBehaviour
 
                 //make pin jump a little too far
                 pinGear.transform.Rotate(0, 0, GEAR_SPIN_ANGLE + PIN_OVERJUMP);
+                firstStabilize = false;
                 pinStablized = false;
             }
             

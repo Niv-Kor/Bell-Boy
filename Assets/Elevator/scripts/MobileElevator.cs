@@ -19,11 +19,15 @@ public class MobileElevator : StationaryElevator
     [Tooltip("Amount of time between the opening and the closing of the elevator.")]
     [SerializeField] public float secondsTillClose = 1;
 
+    private static readonly string BELL_SFX = "bell";
+    private static readonly string OPEN_SFX = "open";
+    private static readonly string CLOSE_SFX = "close";
+
     private List<ElevatorTask> tasksQueue;
     private Stack<int> pendingTasks;
     private SoundMixer soundMixer;
     private HashSet<Passenger> passengers, leavingPassengers;
-    private bool countingPassengers;
+    private bool countingPassengers, prevMovingStatus;
 
     public bool IsMoving { get; set; }
     public int CurrentFloorNum { get; set; }
@@ -57,6 +61,7 @@ public class MobileElevator : StationaryElevator
         this.tasksQueue = new List<ElevatorTask>();
         this.pendingTasks = new Stack<int>();
         this.IsMoving = false;
+        this.prevMovingStatus = IsMoving;
         this.countingPassengers = false;
         this.CurrentFloorNum = 0;
 
@@ -69,6 +74,12 @@ public class MobileElevator : StationaryElevator
     protected override void Update() {
         base.Update();
         MoveElevator();
+
+        //elevator arrived its destination floor
+        if (!IsMoving && prevMovingStatus != IsMoving) {
+            prevMovingStatus = IsMoving;
+            OnArrive();
+        }
     }
 
     /// <summary>
@@ -387,15 +398,22 @@ public class MobileElevator : StationaryElevator
         RemovePassengers();
     }
 
+    /// <summary>
+    /// This method invokes when the elevator arrives to its destination floor.
+    /// </summary>
+    protected virtual void OnArrive() {
+        soundMixer.Activate(BELL_SFX);
+    }
+
     protected override void OnOpening() {
-        soundMixer.Activate("open");
+        soundMixer.Activate(OPEN_SFX);
         Floor currentFloorComponent = StoreyBuilder.Instance.Storeys[CurrentFloorNum];
         ElevatorButton button = currentFloorComponent.ElevatorButton;
         button.Switch(false);
     }
 
     protected override void OnClosing() {
-        soundMixer.Activate("close");
+        soundMixer.Activate(CLOSE_SFX);
         TakePassengersRequests();
     }
 

@@ -39,14 +39,17 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: In Game Tint
+    uniqueID: 603603741
+    locked: 0
   - name: Default
     uniqueID: 0
     locked: 0
   - name: Particles
     uniqueID: 3159539965
     locked: 0
-  - name: In Game Tint
-    uniqueID: 603603741
+  - name: OverGameTint
+    uniqueID: 3134841535
     locked: 0
   - name: Floating Window
     uniqueID: 982911561
