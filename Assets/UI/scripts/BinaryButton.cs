@@ -21,7 +21,7 @@ public class BinaryButton : MonoBehaviour
     private void Start() {
         this.windowCanvas = window.GetComponent<CanvasGroup>();
         Button button = GetComponent<Button>();
-        button.onClick.AddListener(delegate () { ClickAction(); });
+        button.onClick.AddListener(delegate() { ClickAction(); });
     }
 
     /// <summary>

@@ -26,14 +26,22 @@ public class MobileElevator : StationaryElevator
     private List<ElevatorTask> tasksQueue;
     private Stack<int> pendingTasks;
     private SoundMixer soundMixer;
-    private HashSet<Passenger> passengers, leavingPassengers;
+    private HashSet<Passenger> leavingPassengers;
     private bool countingPassengers, prevMovingStatus;
 
     public bool IsMoving { get; set; }
     public int CurrentFloorNum { get; set; }
     public StationaryElevator Entrance { get { return GetEntrance(CurrentFloorNum); } }
+    public HashSet<Passenger> Passengers { get; private set; }
     public BoxCollider Container { get; set; }
     public Vector3 Volume { get { return Container.bounds.size; } }
+
+    public int NextFloorNum {
+        get {
+            if (tasksQueue.Count > 0) return tasksQueue[0].TargetFloor;
+            else return CurrentFloorNum;
+        }
+    }
 
     public ElevatorDirection Direction {
         get {
@@ -51,12 +59,15 @@ public class MobileElevator : StationaryElevator
         }
     }
 
+    public delegate void ElevatorStatusUpdate();
+    public event ElevatorStatusUpdate ElevatorStatusUpdateTrigger;
+
     protected override void Start() {
         base.Start();
 
         this.soundMixer = GetComponent<SoundMixer>();
         this.Container = GetComponent<BoxCollider>();
-        this.passengers = new HashSet<Passenger>();
+        this.Passengers = new HashSet<Passenger>();
         this.leavingPassengers = new HashSet<Passenger>();
         this.tasksQueue = new List<ElevatorTask>();
         this.pendingTasks = new Stack<int>();
@@ -69,6 +80,9 @@ public class MobileElevator : StationaryElevator
         Vector3 initialPos = transform.position;
         initialPos.y = StoreyBuilder.Instance.Storeys[0].IndoorHeight + landingHeight;
         transform.position = initialPos;
+
+        //trigger initial status change
+        ElevatorStatusUpdateTrigger?.Invoke();
     }
 
     protected override void Update() {
@@ -96,7 +110,7 @@ public class MobileElevator : StationaryElevator
 
                 //translate all passengers in the elevator
                 if (previousY != nextY)
-                    foreach (Passenger passenger in passengers)
+                    foreach (Passenger passenger in Passengers)
                         passenger.transform.position += Vector3.up * (nextY - previousY);
             }
         }
@@ -133,6 +147,7 @@ public class MobileElevator : StationaryElevator
         else tasksQueue.Insert(taskIndex, task);
 
         PrintQueue();
+        ElevatorStatusUpdateTrigger?.Invoke();
         return true;
     }
 
@@ -262,7 +277,7 @@ public class MobileElevator : StationaryElevator
     /// Insert a passenger to the elevator.
     /// </summary>
     /// <param name="passenger">The passenger to insert</param>
-    public void Enter(Passenger passenger) { passengers.Add(passenger); }
+    public void Enter(Passenger passenger) { Passengers.Add(passenger); }
 
     /// <summary>
     /// Let out the passengers that reached their target floor.
@@ -272,7 +287,7 @@ public class MobileElevator : StationaryElevator
         Floor currentFloorComponent = StoreyBuilder.Instance.Storeys[CurrentFloorNum];
 
         //find passengers that need to leave the elevator
-        foreach (Passenger passenger in passengers)
+        foreach (Passenger passenger in Passengers)
             if (passenger.TargetFloorNum.Contains(CurrentFloorNum))
                 removedPassengers.Enqueue(passenger);
 
@@ -285,7 +300,7 @@ public class MobileElevator : StationaryElevator
             passenger.AddJourney(JourneyPath.ElevatorExit, currentFloorComponent);
             passenger.AddJourney(JourneyPath.FloorExit, currentFloorComponent);
             leavingPassengers.Add(passenger);
-            passengers.Remove(passenger);
+            Passengers.Remove(passenger);
         }
 
         countingPassengers = false;
@@ -296,7 +311,7 @@ public class MobileElevator : StationaryElevator
     /// </summary>
     /// <returns>True if the elevator can accept the passenger.</returns>
     public bool ReceivePassenger(Passenger passenger) {
-        if ((!IsOpen && !IsOpening) || passengers.Contains(passenger)) return false;
+        if ((!IsOpen && !IsOpening) || Passengers.Contains(passenger)) return false;
 
         //push the passenger's desired buttons
         foreach (int targetFloor in passenger.TargetFloorNum) pendingTasks.Push(targetFloor);
@@ -305,7 +320,7 @@ public class MobileElevator : StationaryElevator
         passenger.TargetElevatorBuffer = this;
         passenger.CommitToJourney(JourneyPath.ElevatorEntrance, currentFloorComponent);
         currentFloorComponent.Passengers.Remove(passenger);
-        passengers.Add(passenger);
+        Passengers.Add(passenger);
         return true;
     }
 
@@ -324,7 +339,7 @@ public class MobileElevator : StationaryElevator
         leavingPassengers.Clear();
 
         //wait for passengers that need to enter the elevator
-        foreach (Passenger entering in passengers)
+        foreach (Passenger entering in Passengers)
             if (!IsPassengerInsideElevator(entering) && !entering.IsDestroyed) return true;
 
         return false;
@@ -383,7 +398,10 @@ public class MobileElevator : StationaryElevator
     /// This method should be used from inside the task itself, as soon as its job is done.
     /// </summary>
     /// <param name="task">The task to dequeue</param>
-    public void FinishTask(ElevatorTask task) { tasksQueue.Remove(task); }
+    public void FinishTask(ElevatorTask task) {
+        tasksQueue.Remove(task);
+        ElevatorStatusUpdateTrigger?.Invoke();
+    }
 
     private void PrintQueue() {
         string line = name + ": ";
@@ -396,6 +414,7 @@ public class MobileElevator : StationaryElevator
 
     protected override void OnFullyOpen() {
         RemovePassengers();
+        ElevatorStatusUpdateTrigger?.Invoke();
     }
 
     /// <summary>
@@ -403,6 +422,7 @@ public class MobileElevator : StationaryElevator
     /// </summary>
     protected virtual void OnArrive() {
         soundMixer.Activate(BELL_SFX);
+        ElevatorStatusUpdateTrigger?.Invoke();
     }
 
     protected override void OnOpening() {
@@ -410,11 +430,13 @@ public class MobileElevator : StationaryElevator
         Floor currentFloorComponent = StoreyBuilder.Instance.Storeys[CurrentFloorNum];
         ElevatorButton button = currentFloorComponent.ElevatorButton;
         button.Switch(false);
+        ElevatorStatusUpdateTrigger?.Invoke();
     }
 
     protected override void OnClosing() {
         soundMixer.Activate(CLOSE_SFX);
         TakePassengersRequests();
+        ElevatorStatusUpdateTrigger?.Invoke();
     }
 
     public override bool Close() {

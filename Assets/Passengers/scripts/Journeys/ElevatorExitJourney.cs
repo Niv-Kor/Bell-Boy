@@ -42,7 +42,6 @@ public class ElevatorExitJourney : Journey
 
     protected override void OnFinish() {
         tipsCalculator.Tip(passenger.transform.position, passenger.BaseTipValue);
-        Debug.Log(passenger.name + "'s base tip is " + passenger.BaseTipValue);
         passengerAnimator.Idlize();
     }
 
