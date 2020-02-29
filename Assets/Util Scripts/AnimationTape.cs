@@ -46,7 +46,7 @@ public class AnimationTape : StateMachine
 
     public override void StrongIdlize() {
         Idlize();
-        animator.SetTrigger(PassengerAnimator.ABORT_PARAM);
+        animator.SetTrigger(PersonAnimator.ABORT_PARAM);
     }
 
     protected override List<string> RetrieveStates() {

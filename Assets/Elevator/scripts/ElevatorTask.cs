@@ -37,11 +37,13 @@ public class ElevatorTask
     private void Start() {
         elevator.Close();
         elevator.Entrance.Close();
-        elevator.IsMoving = true;
         startingPosition = transform.position;
         int floorsAmount = Mathf.Abs(TargetFloor - elevator.CurrentFloorNum);
         totalTransportTime = floorsAmount * elevator.perFloorTime;
         Started = true;
+
+        //only set elevator to moving if it oughts to move
+        if (TargetFloor != elevator.CurrentFloorNum) elevator.IsMoving = true;
     }
 
     /// <summary>

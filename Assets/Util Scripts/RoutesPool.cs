@@ -51,10 +51,11 @@ public abstract class RoutesPool : MonoBehaviour, IPoolable<Queue<Vector3>>
         }
     }
 
-    [Header("Routes Configuration")]
-
     [Tooltip("Paths a person can walk through.")]
     [SerializeField] protected List<GenericPath> routes;
+
+    private static readonly float GIZMO_RADIUS = .4f;
+    private static readonly Color GIZMO_COLOR = Color.blue;
 
     protected List<Queue<GenericPathPoint>> defaultPaths;
     protected List<Queue<Vector3>> freePaths;
@@ -69,13 +70,28 @@ public abstract class RoutesPool : MonoBehaviour, IPoolable<Queue<Vector3>>
         GeneratePaths();
     }
 
+    private void OnDrawGizmos() {
+        for (int i = 0; i < routes.Count; i++) {
+            Gizmos.color = GIZMO_COLOR;
+
+            foreach (GenericPathPoint point in routes[i].points)
+                Gizmos.DrawSphere(point.point, GIZMO_RADIUS);
+        }
+    }
+
     /// <summary>
     /// Create new deviated variations of the given set of paths.
     /// </summary>
     protected virtual void GeneratePaths() {
-        for (int i = 0; i < MaxRoutes(); i++) {
-            Queue<GenericPathPoint> randomPath = CollectionsUtil.SelectRandom(defaultPaths);
-            Queue<GenericPathPoint> clonePath = new Queue<GenericPathPoint>(randomPath);
+        bool exactDefinition = GenerateExactDefinition();
+        int pathsAmount = exactDefinition ? routes.Count : MaxRoutes();
+
+        for (int i = 0; i < pathsAmount; i++) {
+            Queue<GenericPathPoint> selectedPath;
+            if (GenerateExactDefinition()) selectedPath = defaultPaths[i];
+            else selectedPath = CollectionsUtil.SelectRandom(defaultPaths);
+
+            Queue<GenericPathPoint> clonePath = new Queue<GenericPathPoint>(selectedPath);
             Queue<Vector3> generatedPath = new Queue<Vector3>();
 
             //enqueue all points of the generated path
@@ -114,6 +130,9 @@ public abstract class RoutesPool : MonoBehaviour, IPoolable<Queue<Vector3>>
         occupiedPaths.Remove(obj);
         freePaths.Add(originPath);
     }
+
+    /// <returns>True if there should only be route of each kind.</returns>
+    protected abstract bool GenerateExactDefinition();
 
     /// <returns>The maximum amount of routes to generate.</returns>
     protected abstract int MaxRoutes();

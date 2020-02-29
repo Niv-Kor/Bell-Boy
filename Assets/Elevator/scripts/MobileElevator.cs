@@ -27,14 +27,21 @@ public class MobileElevator : StationaryElevator
     private Stack<int> pendingTasks;
     private SoundMixer soundMixer;
     private HashSet<Passenger> leavingPassengers;
-    private bool countingPassengers, prevMovingStatus;
+    private bool countingPassengers, isMoving, prevMovingStatus;
 
-    public bool IsMoving { get; set; }
     public int CurrentFloorNum { get; set; }
     public StationaryElevator Entrance { get { return GetEntrance(CurrentFloorNum); } }
     public HashSet<Passenger> Passengers { get; private set; }
     public BoxCollider Container { get; set; }
     public Vector3 Volume { get { return Container.bounds.size; } }
+
+    public bool IsMoving {
+        get { return isMoving; }
+        set {
+            isMoving = value;
+            if (value == true) prevMovingStatus = value;
+        }
+    }
 
     public int NextFloorNum {
         get {
@@ -90,7 +97,7 @@ public class MobileElevator : StationaryElevator
         MoveElevator();
 
         //elevator arrived its destination floor
-        if (!IsMoving && prevMovingStatus != IsMoving) {
+        if (!IsMoving && prevMovingStatus) {
             prevMovingStatus = IsMoving;
             OnArrive();
         }
@@ -145,6 +152,11 @@ public class MobileElevator : StationaryElevator
         int taskIndex = FindTaskQueueIndex(floorNum);
         if (taskIndex == tasksQueue.Count) tasksQueue.Add(task);
         else tasksQueue.Insert(taskIndex, task);
+
+        //highlight entrance
+        StationaryElevator destEntrance = destFloor.GetEntrance(ID);
+        var entranceHighlighter = destEntrance.GetComponent<EntranceHighlightersAccessor>();
+        entranceHighlighter.GameIndicator.Highlight(true);
 
         PrintQueue();
         ElevatorStatusUpdateTrigger?.Invoke();
@@ -421,7 +433,15 @@ public class MobileElevator : StationaryElevator
     /// This method invokes when the elevator arrives to its destination floor.
     /// </summary>
     protected virtual void OnArrive() {
-        soundMixer.Activate(BELL_SFX);
+        var entranceHighlighters = Entrance.GetComponent<EntranceHighlightersAccessor>();
+        EntranceHighlighter indicatorHighlighter = entranceHighlighters.GameIndicator as EntranceHighlighter;
+
+        //ring bell if reached a floor that a passenger called from OUTSIDE the elevator
+        if (indicatorHighlighter.IsHighlighted) {
+            soundMixer.Activate(BELL_SFX);
+            indicatorHighlighter.Highlight(false);
+        }
+        
         ElevatorStatusUpdateTrigger?.Invoke();
     }
 

@@ -108,11 +108,11 @@ public class Floor : MonoBehaviour
     /// <summary>
     /// Check if a passenger is inside the elevators waiting hall.
     /// </summary>
-    /// <param name="passenger">The passenger to check</param>
+    /// <param name="person">The person to check</param>
     /// <returns>True if the point is in the waiting hall.</returns>
-    public bool IsInWaitingHall(Passenger passenger) {
-        Vector3 passengerCenter = passenger.transform.position;
-        passengerCenter.y += passenger.Dimension.y / 2;
+    public bool IsInWaitingHall(Person person) {
+        Vector3 passengerCenter = person.transform.position;
+        passengerCenter.y += person.Dimension.y / 2;
         return IsInWaitingHall(passengerCenter);
     }
 

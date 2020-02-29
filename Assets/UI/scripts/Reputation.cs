@@ -31,16 +31,25 @@ public class Reputation : MonoBehaviour
     /// <param name="amount">Amout of life bits to create</param>
     public void CreateLifeBits(int amount) {
         repBits = new List<LifeBit>();
-        float xExtent = lifeBitPrefab.GetComponent<SpriteRenderer>().bounds.extents.x;
+        Vector2 pos = leftBitPos;
 
         for (int i = 0; i < amount; i++) {
-            Vector2 pos = leftBitPos;
-            pos.x += (xExtent + lifeBitSpace) * i;
-
             GameObject instance = Instantiate(lifeBitPrefab.gameObject);
             LifeBit lifeBitComponent = instance.GetComponent<LifeBit>();
+            RectTransform rectTransform = instance.GetComponent<RectTransform>();
+            SpriteRenderer spriteRender = instance.GetComponent<SpriteRenderer>();
+
+            //scale and space
             instance.transform.SetParent(transform);
-            instance.transform.localPosition = pos;
+            float xExtent = spriteRender.bounds.extents.x;
+            pos.x = leftBitPos.x + (xExtent + lifeBitSpace) * i;
+            
+            //position
+            rectTransform.anchoredPosition = pos;
+            Vector3 posScaler = new Vector3(1, 1, 0);
+            rectTransform.localPosition = Vector3.Scale(rectTransform.localPosition, posScaler);
+
+            //add to rep bits list
             repBits.Add(lifeBitComponent);
         }
     }

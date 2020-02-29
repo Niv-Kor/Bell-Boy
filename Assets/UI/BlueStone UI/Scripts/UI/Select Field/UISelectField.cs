@@ -477,7 +477,7 @@ namespace DuloGames.UI
 			{
 				UISelectField_List list = this.m_ListObject.GetComponent<UISelectField_List>();
 				
-				if (list.IsHighlighted(eventData))
+				if (list.IsHighlighted())
 					return;
 			}
 			

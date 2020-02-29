@@ -1,31 +1,41 @@
 ﻿using UnityEngine;
-using DuloGames.UI;
 using UnityEditor;
+using DuloGames.UI;
 
 namespace DuloGamesEditor.UI
 {
 	[CanEditMultipleObjects, CustomEditor(typeof(UIProgressBar), true)]
 	public class UIProgressBarEditor : Editor {
 		
+        private UIProgressBar bar;
+
 		private SerializedProperty m_Type;
 		private SerializedProperty m_TargetImage;
 		private SerializedProperty m_TargetTransform;
 		private SerializedProperty m_FillSizing;
-		private SerializedProperty m_MinWidth;
+        private SerializedProperty m_FillDirection;
+        private SerializedProperty m_MinWidth;
 		private SerializedProperty m_MaxWidth;
-		private SerializedProperty m_FillAmount;
+        private SerializedProperty m_MinHeight;
+        private SerializedProperty m_MaxHeight;
+        private SerializedProperty m_FillAmount;
 		private SerializedProperty m_Steps;
 		private SerializedProperty m_OnChange;
 		
 		protected void OnEnable()
 		{
+            this.bar = target as UIProgressBar;
+
 			this.m_Type = base.serializedObject.FindProperty("m_Type");
 			this.m_TargetImage = base.serializedObject.FindProperty("m_TargetImage");
 			this.m_TargetTransform = base.serializedObject.FindProperty("m_TargetTransform");
 			this.m_FillSizing = base.serializedObject.FindProperty("m_FillSizing");
-			this.m_MinWidth = base.serializedObject.FindProperty("m_MinWidth");
+            this.m_FillDirection = base.serializedObject.FindProperty("m_FillDirection");
+            this.m_MinWidth = base.serializedObject.FindProperty("m_MinWidth");
 			this.m_MaxWidth = base.serializedObject.FindProperty("m_MaxWidth");
-			this.m_FillAmount = base.serializedObject.FindProperty("m_FillAmount");
+            this.m_MinHeight = base.serializedObject.FindProperty("m_MinHeight");
+            this.m_MaxHeight = base.serializedObject.FindProperty("m_MaxHeight");
+            this.m_FillAmount = base.serializedObject.FindProperty("m_FillAmount");
 			this.m_Steps = base.serializedObject.FindProperty("m_Steps");
 			this.m_OnChange = base.serializedObject.FindProperty("onChange");
 		}
@@ -54,10 +64,19 @@ namespace DuloGamesEditor.UI
 			{
 				EditorGUILayout.PropertyField(this.m_TargetTransform, new GUIContent("Fill Target"));
 				EditorGUILayout.PropertyField(this.m_FillSizing, new GUIContent("Fill Sizing"));
-				if (this.m_FillSizing.enumValueIndex == 1)
+                EditorGUILayout.PropertyField(this.m_FillDirection, new GUIContent("Fill Direction"));
+                if (this.m_FillSizing.enumValueIndex == 1)
 				{
-					EditorGUILayout.PropertyField(this.m_MinWidth, new GUIContent("Min Width"));
-					EditorGUILayout.PropertyField(this.m_MaxWidth, new GUIContent("Max Width"));
+                    if (this.m_FillDirection.enumValueIndex == 0)
+                    {
+                        EditorGUILayout.PropertyField(this.m_MinWidth, new GUIContent("Min Width"));
+                        EditorGUILayout.PropertyField(this.m_MaxWidth, new GUIContent("Max Width"));
+                    }
+                    else
+                    {
+                        EditorGUILayout.PropertyField(this.m_MinHeight, new GUIContent("Min Height"));
+                        EditorGUILayout.PropertyField(this.m_MaxHeight, new GUIContent("Max Height"));
+                    }
 				}
 			}
 			EditorGUILayout.PropertyField(this.m_Steps, new GUIContent("Steps"));
@@ -70,6 +89,7 @@ namespace DuloGamesEditor.UI
 			if (EditorGUI.EndChangeCheck())
 			{
 				amountChanged = true;
+                this.bar.UpdateBarFill();
 			}
 			
 			EditorGUILayout.Separator();
@@ -80,7 +100,7 @@ namespace DuloGamesEditor.UI
 			
 			if (amountChanged)
 			{
-				(this.target as UIProgressBar).onChange.Invoke(this.m_FillAmount.floatValue);
+				this.bar.onChange.Invoke(this.m_FillAmount.floatValue);
 			}
 		}
 	}

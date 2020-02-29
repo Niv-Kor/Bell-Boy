@@ -56,7 +56,11 @@ public class ElevatorSelectionArrow : MonoBehaviour
             Bounce();
 
             //no one is waiting for the elevator
-            if (floor.Passengers.Count == 0) {
+            bool passengersWaiting = false;
+            foreach (Passenger passenger in floor.Passengers)
+                if (passenger.WaitingForElevator) passengersWaiting = true;
+
+            if (!passengersWaiting) {
                 floor.ElevatorButton.Switch(false);
                 Activate(false);
 

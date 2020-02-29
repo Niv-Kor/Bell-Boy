@@ -17,6 +17,7 @@ public class LifeBit : MonoBehaviour
         this.spriteRender = GetComponent<SpriteRenderer>();
         this.partSystem = GetComponent<ParticleSystem>();
         this.Exists = true;
+
         Switch(true);
     }
 

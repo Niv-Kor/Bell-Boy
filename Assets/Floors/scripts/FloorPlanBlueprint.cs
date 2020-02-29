@@ -49,6 +49,7 @@ public class FloorPlanBlueprint : RoutesPool
         }
     }
 
+    protected override bool GenerateExactDefinition() { return false; }
     protected override int MaxRoutes() { return floor.MaxCapacity; }
     protected override Vector3 RelativePoint() { return floor.transform.position; }
     protected override float RelativeHeight() { return floor.IndoorHeight; }

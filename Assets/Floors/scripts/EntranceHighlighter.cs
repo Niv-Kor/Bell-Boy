@@ -2,6 +2,13 @@
 
 public class EntranceHighlighter : MonoBehaviour, IHighlightable
 {
+    [Header("Identification")]
+
+    [Tooltip("The type of this entrance's highlighting.")]
+    [SerializeField] public HighlightType HighlightType;
+
+    [Header("Prefabs")]
+
     [Tooltip("The highlighting material.")]
     [SerializeField] private Material colorMaterial;
 
@@ -16,8 +23,11 @@ public class EntranceHighlighter : MonoBehaviour, IHighlightable
 
     private Material originMaterial;
 
+    public bool IsHighlighted { get; private set; }
+
     private void Start() {
         this.originMaterial = topBorder.material;
+        this.IsHighlighted = false;
     }
 
     public void Highlight(bool flag) {
@@ -25,5 +35,6 @@ public class EntranceHighlighter : MonoBehaviour, IHighlightable
         topBorder.material = material;
         leftBorder.material = material;
         rightBorder.material = material;
+        IsHighlighted = flag;
     }
 }

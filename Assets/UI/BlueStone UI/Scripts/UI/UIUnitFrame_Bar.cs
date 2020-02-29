@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 using UnityEngine.Events;
-using System.Collections;
+using UnityEngine.UI;
 
-namespace UnityEngine.UI
+namespace DuloGames.UI
 {
 	public class UIUnitFrame_Bar : MonoBehaviour {
 		

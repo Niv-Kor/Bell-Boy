@@ -163,12 +163,13 @@ public class PassengerNavigator : MonoBehaviour
     /// <summary>
     /// Highlight or revert the color of an entrance.
     /// </summary>
-    /// <param name="elevator">The elevator that the entrance belongs to</param>
+    /// <param name="elevator">The elevator to which the entrance belongs</param>
     /// <param name="flag">True to highlight or false to revert</param>
     private void HighlightEntrance(MobileElevator elevator, bool flag) {
         if (elevator == null) return;
 
-        IHighlightable entranceHighlight = elevator.Entrance.GetComponent<EntranceHighlighter>();
-        entranceHighlight.Highlight(flag);
+        var highlightersAccessor = elevator.Entrance.GetComponent<EntranceHighlightersAccessor>();
+        var highlighter = highlightersAccessor.UserInput;
+        highlighter.Highlight(flag);
     }
 }

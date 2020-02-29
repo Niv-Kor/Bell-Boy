@@ -5,9 +5,9 @@ using UnityEngine.Events;
 
 namespace DuloGames.UI
 {
-	[AddComponentMenu("UI/Bars/Progress Bar")]
-	public class UIProgressBar : MonoBehaviour, IUIProgressBar
-    {
+	[AddComponentMenu("UI/Progress Bar"), ExecuteInEditMode]
+	public class UIProgressBar : MonoBehaviour {
+		
 		[Serializable] public class ChangeEvent : UnityEvent<float> { }
 		
 		public enum Type
@@ -21,14 +21,23 @@ namespace DuloGames.UI
 			Parent,
 			Fixed
 		}
-		
-		[SerializeField] private Type m_Type = Type.Filled;
+
+        public enum FillDirection
+        {
+            Horizontal,
+            Vertical
+        }
+
+        [SerializeField] private Type m_Type = Type.Filled;
 		[SerializeField] private Image m_TargetImage;
 		[SerializeField] private RectTransform m_TargetTransform;
 		[SerializeField] private FillSizing m_FillSizing = FillSizing.Parent;
-		[SerializeField] private float m_MinWidth = 0f;
+        [SerializeField] private FillDirection m_FillDirection = FillDirection.Horizontal;
+        [SerializeField] private float m_MinWidth = 0f;
 		[SerializeField] private float m_MaxWidth = 100f;
-		[SerializeField][Range(0f, 1f)] private float m_FillAmount = 1f;
+        [SerializeField] private float m_MinHeight = 0f;
+        [SerializeField] private float m_MaxHeight = 100f;
+        [SerializeField][Range(0f, 1f)] private float m_FillAmount = 1f;
 		[SerializeField] private int m_Steps = 0;
 		public ChangeEvent onChange = new ChangeEvent();
 		
@@ -59,11 +68,27 @@ namespace DuloGames.UI
 			set { this.m_TargetTransform = value; }
 		}
 		
-		/// <summary>
-		/// Gets or sets the minimum width (Used for the resize type bar).
-		/// </summary>
-		/// <value>The minimum width.</value>
-		public float minWidth {
+        /// <summary>
+        /// Gets or sets the fill sizing type.
+        /// </summary>
+        public FillSizing fillSizing {
+            get { return this.m_FillSizing; }
+            set { this.m_FillSizing = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets the fill direction.
+        /// </summary>
+        public FillDirection fillDirection {
+            get { return this.m_FillDirection; }
+            set { this.m_FillDirection = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets the minimum width (Used for the resize type bar).
+        /// </summary>
+        /// <value>The minimum width.</value>
+        public float minWidth {
 			get { return this.m_MinWidth; }
 			set {
 				this.m_MinWidth = value;
@@ -132,22 +157,29 @@ namespace DuloGames.UI
 		}
 		
 #if UNITY_EDITOR
-		protected void OnValidate()
-		{
-			// Update the bar fill
-			this.UpdateBarFill();
-		}
-		
 		protected void Reset()
 		{
-			this.onChange = new ChangeEvent();
+            this.m_TargetImage = null;
+            this.m_TargetTransform = null;
+            this.m_Steps = 0;
+            this.m_FillAmount = 0f;
+            this.onChange = new ChangeEvent();
+            this.UpdateBarFill();
 		}
 #endif
 
-		/// <summary>
-		/// Updates the bar fill.
-		/// </summary>
-		public void UpdateBarFill()
+        protected void OnRectTransformDimensionsChange()
+        {
+            if (this.isActiveAndEnabled && this.m_Type == Type.Resize && this.m_FillSizing == FillSizing.Parent)
+            {
+                this.UpdateBarFill();
+            }
+        }
+
+        /// <summary>
+        /// Updates the bar fill.
+        /// </summary>
+        public void UpdateBarFill()
 		{
 			if (!this.isActiveAndEnabled || (this.m_Type == Type.Filled && this.m_TargetImage == null) || (this.m_Type == Type.Resize && this.m_TargetTransform == null))
 				return;
@@ -165,17 +197,37 @@ namespace DuloGames.UI
 				// we are doing it this way because we are using a mask on the bar and have it's fill inside with static width and position
 				if (this.m_FillSizing == FillSizing.Fixed)
 				{
-					this.m_TargetTransform.SetSizeWithCurrentAnchors(
-						RectTransform.Axis.Horizontal, 
-						(this.m_MinWidth + ((this.m_MaxWidth - this.m_MinWidth) * fill))
-					);
+                    if (this.m_FillDirection == FillDirection.Horizontal)
+                    {
+                        this.m_TargetTransform.SetSizeWithCurrentAnchors(
+                            RectTransform.Axis.Horizontal,
+                            (this.m_MinWidth + ((this.m_MaxWidth - this.m_MinWidth) * fill))
+                        );
+                    }
+                    else
+                    {
+                        this.m_TargetTransform.SetSizeWithCurrentAnchors(
+                            RectTransform.Axis.Vertical,
+                            (this.m_MinHeight + ((this.m_MaxHeight - this.m_MinHeight) * fill))
+                        );
+                    }
 				}
 				else
 				{
-					this.m_TargetTransform.SetSizeWithCurrentAnchors(
-						RectTransform.Axis.Horizontal, 
-						((this.m_TargetTransform.parent as RectTransform).rect.width * fill)
-					);
+                    if (this.m_FillDirection == FillDirection.Horizontal)
+                    {
+                        this.m_TargetTransform.SetSizeWithCurrentAnchors(
+                            RectTransform.Axis.Horizontal,
+                            ((this.m_TargetTransform.parent as RectTransform).rect.width * fill)
+                        );
+                    }
+                    else
+                    {
+                        this.m_TargetTransform.SetSizeWithCurrentAnchors(
+                            RectTransform.Axis.Vertical,
+                            ((this.m_TargetTransform.parent as RectTransform).rect.height * fill)
+                        );
+                    }
 				}
 			}
 			else
