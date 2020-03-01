@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using DuloGames.UI;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class BinaryButton : MonoBehaviour
 {
@@ -16,10 +17,19 @@ public class BinaryButton : MonoBehaviour
     [Tooltip("True to resume (unpause) the game upon click.")]
     [SerializeField] private bool resumeOnClick;
 
+    [Tooltip("True to load a different scene upon click.")]
+    [SerializeField] private bool switchScene = false;
+
+    [Tooltip("The scene index to load upon click (only works when 'switchScene' is true).")]
+    [SerializeField] private int loadedScene = 0;
+
     private CanvasGroup windowCanvas;
 
+    public bool ClickEnabled { get; set; }
+
     private void Start() {
-        this.windowCanvas = window.GetComponent<CanvasGroup>();
+        this.ClickEnabled = true;
+        if (window != null) this.windowCanvas = window.GetComponent<CanvasGroup>();
         Button button = GetComponent<Button>();
         button.onClick.AddListener(delegate() { ClickAction(); });
     }
@@ -28,11 +38,14 @@ public class BinaryButton : MonoBehaviour
     /// The function to invoke when the button is clicked.
     /// </summary>
     private void ClickAction() {
+        if (!ClickEnabled) return;
+
         UIWindow.VisualState action = openOnClick ? UIWindow.VisualState.Shown : UIWindow.VisualState.Hidden;
+        if (switchScene) SceneManager.LoadScene(loadedScene);
         if (openOnClick) windowCanvas.interactable = true;
         if (pauseOnClick) GamePauser.Instance.PauseGame();
         else if (resumeOnClick) GamePauser.Instance.ResumeGame();
 
-        window.ApplyVisualState(action);
+        if (window != null) window.ApplyVisualState(action);
     }
 }

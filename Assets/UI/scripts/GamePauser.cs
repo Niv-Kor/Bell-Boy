@@ -12,9 +12,12 @@ public class GamePauser : Singleton<GamePauser>
     [Tooltip("The time it takes to perform a full transition from transparent to the tint color.")]
     [SerializeField] private float transitionTime;
 
+    [Tooltip("Pause all Update methods.")]
+    [SerializeField] private bool updatePause = true;
+
     private static readonly Color TRANSPARENT = new Color(0, 0, 0, 0);
 
-    private float lerpedTransitionTime;
+    private float originTimeScale, lerpedTransitionTime;
     private bool transition;
 
     public bool IsPaused { get { return tintRect.gameObject.activeSelf; } }
@@ -33,9 +36,10 @@ public class GamePauser : Singleton<GamePauser>
 
             //reached the desired tint color
             if (tintRect.color == screenTint) {
-                Time.timeScale = 0;
                 transition = false;
                 lerpedTransitionTime = 0;
+
+                if (updatePause) Time.timeScale = 0;
             }
         }
     }
@@ -45,6 +49,7 @@ public class GamePauser : Singleton<GamePauser>
     /// This method has no effect if the game is already paused.
     /// </summary>
     public void PauseGame() {
+        originTimeScale = Time.timeScale;
         transition = true;
         tintRect.gameObject.SetActive(true);
     }
@@ -55,7 +60,7 @@ public class GamePauser : Singleton<GamePauser>
     /// </summary>
     public void ResumeGame() {
         transition = false;
-        Time.timeScale = 1;
+        Time.timeScale = originTimeScale;
         tintRect.color = TRANSPARENT;
         tintRect.gameObject.SetActive(false);
     }
