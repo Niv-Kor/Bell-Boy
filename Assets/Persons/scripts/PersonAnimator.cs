@@ -5,7 +5,7 @@
 public class PersonAnimator : MonoBehaviour
 {
     public static readonly string ABORT_PARAM = "abort";
-    public static readonly AnimationState WALK = new AnimationState { animationParam = "walk", tuneName = "step" };
+    public static readonly AnimationState WALK = new AnimationState { animationParam = "walk", tuneName = null };
     public static readonly AnimationState RUN = new AnimationState { animationParam = "run", tuneName = "run" };
     public static readonly AnimationState JUMP = new AnimationState { animationParam = "jump", tuneName = "jump" };
     public static readonly AnimationState FALL = new AnimationState { animationParam = "fall", tuneName = "fall" };

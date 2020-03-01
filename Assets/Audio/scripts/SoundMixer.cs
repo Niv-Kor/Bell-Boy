@@ -12,6 +12,8 @@ public class SoundMixer : StateMachine
     }
 
     public override void Activate(string param, bool flag) {
+        if (param == null || param == "") return;
+
         Tune tune = jukebox.Get(param);
 
         if (tune != null) {

@@ -25,4 +25,7 @@ public class BGM : MonoBehaviour
     /// Stop the song.
     /// </summary>
     public void Stop() { soundMixer.Activate(songTitle, false); }
+
+    /// <returns>True if the song is playing at the moment.</returns>
+    internal bool IsPlaying() { return soundMixer.IsAtState(songTitle); }
 }
