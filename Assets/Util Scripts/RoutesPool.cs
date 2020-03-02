@@ -79,6 +79,9 @@ public abstract class RoutesPool : MonoBehaviour, IPoolable<Queue<Vector3>>
         }
     }
 
+    /// <returns>True if there are free routes.</returns>
+    public bool HasFree() { return freePaths.Count > 0; }
+
     /// <summary>
     /// Create new deviated variations of the given set of paths.
     /// </summary>

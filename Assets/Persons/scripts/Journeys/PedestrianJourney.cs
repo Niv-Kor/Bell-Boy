@@ -16,7 +16,7 @@ public class PedestrianJourney : Journey
 
     protected override Queue<Vector3> GeneratePath() {
         if (pedStreetMap != null) return pedStreetMap.Lease();
-        else return null;
+        else return pedStreetMap.Clone();
     }
 
     protected override void OnStart() {

@@ -15,11 +15,13 @@ public class SpawnController : Singleton<SpawnController>
 
     private GameObject humansParent;
     private PersonPool pool;
+    private PedestrianStreetMap streetMap;
     private float spawnTimer;
 
     private void Start() {
         this.pool = GetComponent<PersonPool>();
         this.humansParent = new GameObject(HUMANS_PARENT_NAME);
+        this.streetMap = FindObjectOfType<PedestrianStreetMap>();
         humansParent.transform.SetParent(transform);
         this.spawnTimer = SpawnRate;
     }
@@ -44,7 +46,10 @@ public class SpawnController : Singleton<SpawnController>
                 if (!floor.IsAtFullCapacity()) Spawn(pool.Lease(), floor);
                 break;
             case PersonRole.Pedestrian:
-                SpawnPedestrian(pool.Lease());
+                //check if there are free routes to use
+                if (streetMap == null || streetMap.HasFree())
+                    SpawnPedestrian(pool.Lease());
+
                 break;
         }
     }

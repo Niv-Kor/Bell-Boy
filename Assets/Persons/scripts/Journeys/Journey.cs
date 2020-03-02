@@ -130,7 +130,10 @@ public abstract class Journey
         Queue<Vector3> generatedPath = GeneratePath();
 
         try {
-            if (generatedPath == null) throw new Exception();
+            if (generatedPath == null) {
+                Debug.Log("No path for " + person.name);
+                throw new Exception();
+            }
             else path = generatedPath;
 
             OnStart();
