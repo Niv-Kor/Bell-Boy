@@ -6,11 +6,9 @@ public class StartMenuButtons : MonoBehaviour
     [Tooltip("The time it takes the buttons to fade in (in seconds).\n")]
     [SerializeField] private float fadeInTime;
 
-    private static readonly Color TRANSPARENT = new Color(0xFF, 0xFF, 0xFF, 0);
-    private static readonly Color APPARENT_TEXT = Color.white;
-
     private Text[] texts;
     private Image[] buttonFrames;
+    private float[] textsAlphaValues, buttonFramesAlphaValues;
     private BinaryButton[] buttons;
     private UIButtonSFX[] soundEffects;
     private float timeLerped;
@@ -21,6 +19,14 @@ public class StartMenuButtons : MonoBehaviour
         this.texts = GetComponentsInChildren<Text>();
         this.buttons = GetComponentsInChildren<BinaryButton>();
         this.soundEffects = GetComponentsInChildren<UIButtonSFX>();
+        this.buttonFramesAlphaValues = new float[buttonFrames.Length];
+        this.textsAlphaValues = new float[texts.Length];
+
+        for (int i = 0; i < buttonFramesAlphaValues.Length; i++)
+            buttonFramesAlphaValues[i] = buttonFrames[i].color.a;
+
+        for (int i = 0; i < textsAlphaValues.Length; i++)
+            textsAlphaValues[i] = texts[i].color.a;
 
         //let all buttons start as transparent
         foreach (Image image in buttonFrames) {
@@ -29,7 +35,13 @@ public class StartMenuButtons : MonoBehaviour
             image.color = buttonColor;
         }
 
-        foreach (Text text in texts) text.color = TRANSPARENT;
+        //let all texts start as transparent
+        foreach (Text text in texts) {
+            Color textColor = text.color;
+            textColor.a = 0;
+            text.color = textColor;
+        }
+
         foreach (BinaryButton button in buttons) button.ClickEnabled = false;
         foreach (UIButtonSFX SFX in soundEffects) SFX.ClickEnabled = false;
     }
@@ -39,15 +51,22 @@ public class StartMenuButtons : MonoBehaviour
             timeLerped += Time.deltaTime;
 
             //images
-            foreach (Image image in buttonFrames) {
+            for (int i = 0; i < buttonFrames.Length; i++) {
+                Image image = buttonFrames[i];
+                float originAlphaValue = buttonFramesAlphaValues[i];
                 Color buttonColor = image.color;
-                buttonColor.a = Mathf.Lerp(0, 1, timeLerped / fadeInTime);
+                buttonColor.a = Mathf.Lerp(0, originAlphaValue, timeLerped / fadeInTime);
                 image.color = buttonColor;
             }
 
-            //text
-            foreach (Text text in texts)
-                text.color = Color.Lerp(TRANSPARENT, APPARENT_TEXT, timeLerped / fadeInTime);
+            //texts
+            for (int i = 0; i < texts.Length; i++) {
+                Text text = texts[i];
+                float originAlphaValue = textsAlphaValues[i];
+                Color textColor = text.color;
+                textColor.a = Mathf.Lerp(0, originAlphaValue, timeLerped / fadeInTime);
+                text.color = textColor;
+            }
         }
     }
 

@@ -2,11 +2,8 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-/// <summary>
-/// UI Particle System
-/// </summary>
-public class UIParticleSystem : MonoBehaviour {
-
+public class UIParticleSystem : MonoBehaviour
+{
     /// <summary>
     /// Particle Image
     /// </summary>
@@ -70,7 +67,7 @@ public class UIParticleSystem : MonoBehaviour {
     /// <summary>
     /// Color Over Lifetime
     /// </summary>
-    public Gradient ColorOverLifetime;
+    public UnityEngine.Gradient ColorOverLifetime;
 
     /// <summary>
     /// Size Over Lifetime
@@ -89,11 +86,6 @@ public class UIParticleSystem : MonoBehaviour {
     protected Image[] ParticlePool;
     protected int ParticlePoolPointer;
 
-
-	// Use this for initialization
-	void Start () {    
-    }
-
     void Awake()
     {
         if (ParticlePool == null)
@@ -108,7 +100,6 @@ public class UIParticleSystem : MonoBehaviour {
         ParticlePool = new Image[(int)(Lifetime * EmissionsPerSecond * 1.1f + 1)];
         for (int i = 0; i < ParticlePool.Length; i++)
         {
-
             var gameObject = new GameObject("Particle");
             gameObject.transform.SetParent(transform);
             gameObject.SetActive(false);
