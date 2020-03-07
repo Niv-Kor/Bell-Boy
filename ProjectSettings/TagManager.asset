@@ -57,3 +57,6 @@ TagManager:
   - name: Floating Window
     uniqueID: 982911561
     locked: 0
+  - name: Master Screen
+    uniqueID: 3323260111
+    locked: 0

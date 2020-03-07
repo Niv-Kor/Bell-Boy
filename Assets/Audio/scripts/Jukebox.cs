@@ -18,7 +18,7 @@ public class Jukebox : MonoBehaviour
             AudioSource audioSource = audioParent.AddComponent<AudioSource>();
             tune.SetSource(audioSource);
             audioSource.loop = tune.Loop;
-            audioSource.outputAudioMixerGroup = AudioAccessor.Instance.GetGenreGroup(tune.Genre);
+            audioSource.outputAudioMixerGroup = VolumeController.Instance.GetGenreGroup(tune.Genre);
         }
     }
 

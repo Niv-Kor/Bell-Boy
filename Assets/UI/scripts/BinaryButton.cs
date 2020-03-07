@@ -18,10 +18,10 @@ public class BinaryButton : MonoBehaviour
     [SerializeField] private bool resumeOnClick;
 
     [Tooltip("True to load a different scene upon click.")]
-    [SerializeField] private bool switchScene = false;
+    [SerializeField] private bool loadScene = false;
 
     [Tooltip("The scene index to load upon click (only works when 'switchScene' is true).")]
-    [SerializeField] private int loadedScene = 0;
+    [SerializeField] private int loadedSceneIndex = 0;
 
     private CanvasGroup windowCanvas;
 
@@ -41,7 +41,7 @@ public class BinaryButton : MonoBehaviour
         if (!ClickEnabled) return;
 
         UIWindow.VisualState action = openOnClick ? UIWindow.VisualState.Shown : UIWindow.VisualState.Hidden;
-        if (switchScene) SceneManager.LoadScene(loadedScene);
+        if (loadScene) SceneLoader.Instance.LoadScene(loadedSceneIndex);
         if (openOnClick) windowCanvas.interactable = true;
         if (pauseOnClick) GamePauser.Instance.PauseGame();
         else if (resumeOnClick) GamePauser.Instance.ResumeGame();

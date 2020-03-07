@@ -32,6 +32,15 @@ public class Tune
     /// <param name="src">An AudioSource component</param>
     public void SetSource(AudioSource src) {
         this.source = src;
+        ResetSourceValues();
+    }
+
+    /// <summary>
+    /// Reset the values of the source according to any changes in the tune parent.
+    /// </summary>
+    private void ResetSourceValues() {
+        if (source == null) return;
+
         source.clip = Clip;
         source.volume = Volume;
         source.pitch = Pitch;
@@ -40,7 +49,10 @@ public class Tune
     /// <summary>
     /// Play the tune.
     /// </summary>
-    public void Play() { source.PlayDelayed(Delay); }
+    public void Play() {
+        ResetSourceValues();
+        source.PlayDelayed(Delay);
+    }
 
     /// <summary>
     /// Stop the tune.
